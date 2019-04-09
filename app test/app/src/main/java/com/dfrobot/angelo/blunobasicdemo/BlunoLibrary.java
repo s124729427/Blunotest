@@ -133,7 +133,7 @@ public abstract  class BlunoLibrary  extends Activity{
 		mLeDeviceListAdapter = new LeDeviceListAdapter();
 		// Initializes and show the scan Device Dialog
 		mScanDeviceDialog = new AlertDialog.Builder(mainContext)
-		.setTitle("BLE Device Scan...").setAdapter(mLeDeviceListAdapter, new DialogInterface.OnClickListener() {
+		.setTitle("選擇連結藍芽").setAdapter(mLeDeviceListAdapter, new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which)
@@ -156,13 +156,14 @@ public abstract  class BlunoLibrary  extends Activity{
 
 					mDeviceName=device.getName().toString();
 					mDeviceAddress=device.getAddress().toString();
-
+//就在這段//connect address//跳到ble的connect功能
 		        	if (mBluetoothLeService.connect(mDeviceAddress)) {
 				        Log.d(TAG, "Connect request success");
 			        	mConnectionState=connectionStateEnum.isConnecting;
 			        	onConectionStateChange(mConnectionState);
 			            mHandler.postDelayed(mConnectingOverTimeRunnable, 10000);
 		        	}
+//解析跳掉連結選項畫面的code是哪個
 			        else {
 				        Log.d(TAG, "Connect request fail");
 			        	mConnectionState=connectionStateEnum.isToScan;
@@ -360,6 +361,7 @@ public abstract  class BlunoLibrary  extends Activity{
 			onConectionStateChange(mConnectionState);
 			scanLeDevice(true);
 			mScanDeviceDialog.show();
+//出現連結畫面
 			break;
 		case isToScan:
 			mConnectionState=connectionStateEnum.isScanning;
