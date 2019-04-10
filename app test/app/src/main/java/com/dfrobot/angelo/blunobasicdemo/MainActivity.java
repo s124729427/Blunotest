@@ -37,7 +37,7 @@ public class MainActivity  extends BlunoLibrary {
 		text7 = (TextView) findViewById(R.id.text7);
 		text8 = (TextView) findViewById(R.id.text8);
 
-		serialBegin(115200);                                                    //set the Uart Baudrate on BLE chip to 115200
+		serialBegin(115200);    //set the default baud rate to 115200//藍芽連結率設定//與硬體設備鮑褒率相同                                                //set the Uart Baudrate on BLE chip to 115200
 
 
 		//initial the EditText of the sending data

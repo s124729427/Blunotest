@@ -1,10 +1,8 @@
 package com.dfrobot.angelo.blunobasicdemo;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.annotation.SuppressLint;
@@ -49,21 +47,21 @@ public abstract  class BlunoLibrary  extends Activity{
 			mBluetoothLeService.writeCharacteristic(mSCharacteristic);
 		}
 	}
-
-	private int mBaudrate=115200;	//set the default baud rate to 115200
+	
+	private int mBaudrate=115200;	//set the default baud rate to 115200//藍芽連結率設定//與硬體設備鮑褒率相同
 	private String mPassword="AT+PASSWOR=DFRobot\r\n";
-
-
+	
+	
 	private String mBaudrateBuffer = "AT+CURRUART="+mBaudrate+"\r\n";
-
+	
 //	byte[] mBaudrateBuffer={0x32,0x00,(byte) (mBaudrate & 0xFF),(byte) ((mBaudrate>>8) & 0xFF),(byte) ((mBaudrate>>16) & 0xFF),0x00};;
-
-
+	
+	
 	public void serialBegin(int baud){
 		mBaudrate=baud;
 		mBaudrateBuffer = "AT+CURRUART="+mBaudrate+"\r\n";
 	}
-
+	
 	
 	static class ViewHolder {
 		TextView deviceName;
@@ -82,9 +80,6 @@ public abstract  class BlunoLibrary  extends Activity{
 	public enum connectionStateEnum{isNull, isScanning, isToScan, isConnecting , isConnected, isDisconnecting};
 	public connectionStateEnum mConnectionState = connectionStateEnum.isNull;
 	private static final int REQUEST_ENABLE_BT = 1;
-
-	private ArrayList<BluetoothDevice> mDeviceList = new ArrayList<BluetoothDevice>();
-	private LinkedList mDeviceContainer = new LinkedList();
 
 	private Handler mHandler= new Handler();
 	
@@ -131,17 +126,19 @@ public abstract  class BlunoLibrary  extends Activity{
         
 		// Initializes list view adapter.
 		mLeDeviceListAdapter = new LeDeviceListAdapter();
+		// LeDeviceListAdapter定義在最下面自訂義對話框(dialog)
 		// Initializes and show the scan Device Dialog
 		mScanDeviceDialog = new AlertDialog.Builder(mainContext)
 		.setTitle("BLE Device Scan...").setAdapter(mLeDeviceListAdapter, new DialogInterface.OnClickListener() {
-			
+					//自訂義對話框使用setAdapter
+					//監聽觸及事件
 			@Override
 			public void onClick(DialogInterface dialog, int which)
 			{
 				final BluetoothDevice device = mLeDeviceListAdapter.getDevice(which);
 				if (device == null)
 					return;
-				scanLeDevice(false);
+				scanLeDevice(false);//如果device是null //呼叫scanLeDevice停止掃描
 
 		        if(device.getName()==null || device.getAddress()==null)
 		        {
@@ -156,13 +153,14 @@ public abstract  class BlunoLibrary  extends Activity{
 
 					mDeviceName=device.getName().toString();
 					mDeviceAddress=device.getAddress().toString();
-
+//就在這段//connect address//跳到bluetoothleservice.java的connect()功能
 		        	if (mBluetoothLeService.connect(mDeviceAddress)) {
 				        Log.d(TAG, "Connect request success");
 			        	mConnectionState=connectionStateEnum.isConnecting;
 			        	onConectionStateChange(mConnectionState);
 			            mHandler.postDelayed(mConnectingOverTimeRunnable, 10000);
 		        	}
+//解析跳掉連結選項畫面的code是哪個
 			        else {
 				        Log.d(TAG, "Connect request fail");
 			        	mConnectionState=connectionStateEnum.isToScan;
@@ -292,7 +290,6 @@ public abstract  class BlunoLibrary  extends Activity{
 		@Override
         public void onReceive(Context context, Intent intent) {
         	final String action = intent.getAction();
-			Bundle extras = intent.getExtras();
  //           System.out.println("mGattUpdateReceiver->onReceive->action="+action);
             if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
                 mConnected = true;
@@ -325,7 +322,7 @@ public abstract  class BlunoLibrary  extends Activity{
 						mBluetoothLeService.setCharacteristicNotification(mSCharacteristic, true);
 						mConnectionState = connectionStateEnum.isConnected;
 						onConectionStateChange(mConnectionState);
-
+						
 					}
             		else {
             			Toast.makeText(mainContext, "Please select DFRobot devices",Toast.LENGTH_SHORT).show();
@@ -335,11 +332,11 @@ public abstract  class BlunoLibrary  extends Activity{
             	}
 
             	else if (mSCharacteristic==mSerialPortCharacteristic) {
-            		//傳DATA到顯示頁面
+					//傳DATA到顯示頁面
 					String theString = intent.getStringExtra(BluetoothLeService.EXTRA_DATA);
             		onSerialReceived(theString);
 				}
-
+            	
             
             	System.out.println("displayData "+intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
 
@@ -360,6 +357,7 @@ public abstract  class BlunoLibrary  extends Activity{
 			onConectionStateChange(mConnectionState);
 			scanLeDevice(true);
 			mScanDeviceDialog.show();
+			//出現連結畫面
 			break;
 		case isToScan:
 			mConnectionState=connectionStateEnum.isScanning;
@@ -396,7 +394,7 @@ public abstract  class BlunoLibrary  extends Activity{
 	void scanLeDevice(final boolean enable) {
 		if (enable) {
 			// Stops scanning after a pre-defined scan period.
-			//按下按鈕第一步
+//按下按鈕第一步
 			System.out.println("mBluetoothAdapter.startLeScan");
 			
 			if(mLeDeviceListAdapter != null)
@@ -442,9 +440,7 @@ public abstract  class BlunoLibrary  extends Activity{
 
 	// Device scan callback.
 	private BluetoothAdapter.LeScanCallback mLeScanCallback = new BluetoothAdapter.LeScanCallback() {
-//返回掃描結果
-		//建立BluetoothAdapter.LeScanCallback
-// 按下BUTTON後掃描裝置
+
 		@Override
 		public void onLeScan(final BluetoothDevice device, int rssi,
 				byte[] scanRecord) {
@@ -452,44 +448,15 @@ public abstract  class BlunoLibrary  extends Activity{
 				@Override
 				public void run() {
 					System.out.println("mLeScanCallback onLeScan run ");
-					if (!mDeviceContainer.isEmpty())
-					{
-						if(!equals(device))
-						{
-							mDeviceList.add(device);//添加到设备列表，原代码中少了这句，导致后连接的设备盖了前面的设备
-							connectBle(device);//添加gatt到列表
-						}
-					}else {
-						mDeviceList.add(device);//添加到设备列表，原代码中少了这句，导致后连接的设备盖了前面的设备
-						connectBle(device);//添加gatt到列表
-						mLeDeviceListAdapter.addDevice(device);
-						mLeDeviceListAdapter.notifyDataSetChanged();
-					}
+					mLeDeviceListAdapter.addDevice(device);//添加到设备列表，原代码中少了这句，导致后连接的设备盖了前面的设备
+					mLeDeviceListAdapter.notifyDataSetChanged();
 				}
 			});
 		}
 	};
-
-	private void connectBle(BluetoothDevice device){
-		mDeviceContainer.add(device);
-		while (true) {
-			if(mBluetoothLeService!=null){
-				mBluetoothLeService.connect(device.getAddress());
-				break;
-			}else{
-				try{
-					Thread.sleep(250);
-
-				}catch(InterruptedException e){
-					e.printStackTrace();
-				}
-			}
-
-		}
-	}
 	
     private void getGattServices(List<BluetoothGattService> gattServices) {
-    	//連線到裝置之後獲取裝置的服務(Service)和服務對應的Characteristic
+		//連線到裝置之後獲取裝置的服務(Service)和服務對應的Characteristic
         if (gattServices == null) return;
         String uuid = null;
         mModelNumberCharacteristic=null;
@@ -528,7 +495,7 @@ public abstract  class BlunoLibrary  extends Activity{
             }
             mGattCharacteristics.add(charas);
         }
-
+        
         if (mModelNumberCharacteristic==null || mSerialPortCharacteristic==null || mCommandCharacteristic==null) {
 			Toast.makeText(mainContext, "Please select DFRobot devices",Toast.LENGTH_SHORT).show();
             mConnectionState = connectionStateEnum.isToScan;
@@ -539,7 +506,7 @@ public abstract  class BlunoLibrary  extends Activity{
         	mBluetoothLeService.setCharacteristicNotification(mSCharacteristic, true);
         	mBluetoothLeService.readCharacteristic(mSCharacteristic);
 		}
-
+        
     }
     
     private static IntentFilter makeGattUpdateIntentFilter() {
@@ -549,7 +516,6 @@ public abstract  class BlunoLibrary  extends Activity{
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
         intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
         return intentFilter;
-        //第三部 用BroadcastReceiver来取得搜索结果
     }
 	
 	private class LeDeviceListAdapter extends BaseAdapter {
