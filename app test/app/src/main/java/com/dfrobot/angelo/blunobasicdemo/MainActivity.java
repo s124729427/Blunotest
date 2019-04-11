@@ -16,8 +16,10 @@ import java.io.*;
 
 public class MainActivity  extends BlunoLibrary {
 	private Button buttonScan;
+	private Button buttonScan2;
 
 	private TextView test, text1, text2, text3, text4, text5, text6, text7, text8;
+    private TextView test2test, text9, text10, text11, text12, text13, text14, text15, text16;
 
 
 	@Override
@@ -37,6 +39,16 @@ public class MainActivity  extends BlunoLibrary {
 		text7 = (TextView) findViewById(R.id.text7);
 		text8 = (TextView) findViewById(R.id.text8);
 
+        test2test = (TextView) findViewById(R.id.test2test);
+        text9 = (TextView) findViewById(R.id.text9);
+        text10 = (TextView) findViewById(R.id.text10);
+        text11 = (TextView) findViewById(R.id.text11);
+        text12 = (TextView) findViewById(R.id.text12);
+        text13 = (TextView) findViewById(R.id.text13);
+        text14 = (TextView) findViewById(R.id.text14);
+        text15 = (TextView) findViewById(R.id.text15);
+        text16 = (TextView) findViewById(R.id.text16);
+
 		serialBegin(115200);    //set the default baud rate to 115200//藍芽連結率設定//與硬體設備鮑褒率相同                                                //set the Uart Baudrate on BLE chip to 115200
 
 
@@ -46,6 +58,7 @@ public class MainActivity  extends BlunoLibrary {
 
 
 		buttonScan = (Button) findViewById(R.id.buttonScan);                    //initial the button for scanning the BLE device
+		buttonScan2 = (Button) findViewById(R.id.buttonScan2);
 		buttonScan.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -53,6 +66,15 @@ public class MainActivity  extends BlunoLibrary {
 				// TODO Auto-generated method stub
 
 				buttonScanOnClickProcess();                                        //Alert Dialog for selecting the BLE device
+			}
+		});
+		buttonScan2.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+
+				buttonScanOnClickProcess2();                                        //Alert Dialog for selecting the BLE device
 			}
 		});
 	}
@@ -109,26 +131,65 @@ public class MainActivity  extends BlunoLibrary {
 				break;
 		}
 	}
+	public void onConectionStateChange2(connectionStateEnum theConnectionState) {//Once connection state changes, this function will be called
+		switch (theConnectionState) {                                            //Four connection state
+			case isConnected:
+				buttonScan2.setText("Connected");
+				break;
+			case isConnecting:
+				buttonScan2.setText("Connecting");
+				break;
+			case isToScan:
+				buttonScan2.setText("Scan");
+				break;
+			case isScanning:
+				buttonScan2.setText("Scanning");
+				break;
+			case isDisconnecting:
+				buttonScan2.setText("isDisconnecting");
+				break;
+			default:
+				break;
+		}
+	}
 
 	@Override
 	public void onSerialReceived(String theString){                            //Once connection data received, this function will be called
-		// TODO Auto-generated method stub
-		test.append(theString);                            //append the text into the EditText
-		String[] token = test.getText().toString().split(",");
-		//for(int i = 0 ; i < token.length ; i=i+6){
-		if(token.length%8 == 0) {
-			for (int i = 0; i < token.length; i = i + 8) {
-				text1.setText(token[i]);
-				text2.setText(token[i + 1]);
-				text3.setText(token[i + 2]);
-				text4.setText(token[i + 3]);
-				text5.setText(token[i + 4]);
-				text6.setText(token[i + 5]);
-				text7.setText(token[i + 6]);
-				text8.setText(token[i + 7]);
-			}
-		}
-	}
+        // TODO Auto-generated method stub
+        test.append(theString);                            //append the text into the EditText
+        String[] token = test.getText().toString().split(",");
+        //for(int i = 0 ; i < token.length ; i=i+6){
+        if(token.length%8 == 0) {
+            for (int i = 0; i < token.length; i = i + 8) {
+                text1.setText(token[i]);
+                text2.setText(token[i + 1]);
+                text3.setText(token[i + 2]);
+                text4.setText(token[i + 3]);
+                text5.setText(token[i + 4]);
+                text6.setText(token[i + 5]);
+                text7.setText(token[i + 6]);
+                text8.setText(token[i + 7]);
+            }
+        }
+    }
+    public void onSerialReceived2(String theString){                            //Once connection data received, this function will be called
+        // TODO Auto-generated method stub
+        test2test.append(theString);                            //append the text into the EditText
+        String[] token2 = test2test.getText().toString().split(",");
+        //for(int i = 0 ; i < token.length ; i=i+6){
+        if(token2.length%8 == 0) {
+            for (int i = 0; i < token2.length; i = i + 8) {
+                text9.setText(token2[i]);
+                text10.setText(token2[i + 1]);
+                text11.setText(token2[i + 2]);
+                text12.setText(token2[i + 3]);
+                text13.setText(token2[i + 4]);
+                text14.setText(token2[i + 5]);
+                text15.setText(token2[i + 6]);
+                text16.setText(token2[i + 7]);
+            }
+        }
+    }
 }
 
 /*
