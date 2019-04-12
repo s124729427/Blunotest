@@ -89,10 +89,9 @@ public class BluetoothLeService extends Service {
 
     // Implements callback methods for GATT events that the app cares about.  For example,
     // connection change and services discovered.
-    private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
+    private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {                                  //連線狀態監聽
         @Override
-        //寫入成功之後，開始讀取裝置返回來的資料。
-        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {                            //根據newstate改變連線狀態並呼叫broadcastUpdate傳送intent
             String intentAction;
             System.out.println("BluetoothGattCallback----onConnectionStateChange"+newState);
             if (newState == BluetoothProfile.STATE_CONNECTED) {
@@ -101,7 +100,7 @@ public class BluetoothLeService extends Service {
                 broadcastUpdate(intentAction);
                 Log.i(TAG, "Connected to GATT server.");
                 // Attempts to discover services after successful connection.
-                if(mBluetoothGatt.discoverServices())
+                if(mBluetoothGatt.discoverServices())                                                                   //gatt內建方法//有發現服務回傳true
                 {
                     Log.i(TAG, "Attempting to start service discovery:");
 
@@ -122,7 +121,7 @@ public class BluetoothLeService extends Service {
 
         @Override
         //// New services discovered//发现新的服务
-        public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+        public void onServicesDiscovered(BluetoothGatt gatt, int status) {              //再connect獲得gatt後//獲取該裝置服務//呼叫broadcastUpdate傳送intent
         	System.out.println("onServicesDiscovered "+status);
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED);
@@ -282,8 +281,8 @@ public class BluetoothLeService extends Service {
             }
         }
         @Override
-        // //notify 会回调用此方法
-        public void  onDescriptorWrite(BluetoothGatt gatt, 
+
+        public void  onDescriptorWrite(BluetoothGatt gatt,                                              //讀取計數器值//會呼叫readCharacteristic
         								BluetoothGattDescriptor characteristic,
         								int status){
         	System.out.println("onDescriptorWrite  "+characteristic.getUuid().toString()+" "+status);
@@ -291,8 +290,8 @@ public class BluetoothLeService extends Service {
 
 
          @Override
-        public void onCharacteristicChanged(BluetoothGatt gatt,
-                                            BluetoothGattCharacteristic characteristic) {
+        public void onCharacteristicChanged(BluetoothGatt gatt,                                            //特徵數值改變會觸發
+                                            BluetoothGattCharacteristic characteristic) {                  //傳送改變的特徵與命令
         	System.out.println("onCharacteristicChanged  "+new String(characteristic.getValue()));
             broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
         }
@@ -302,9 +301,9 @@ public class BluetoothLeService extends Service {
     private void broadcastUpdate(final String action) {
         final Intent intent = new Intent(action);
         //顯示ACTIVITY
-        sendBroadcast(intent);
+        sendBroadcast(intent);                                                 //只夾帶命令的intent
     }
-    //第五步
+
 
     private void broadcastUpdate(final String action,
                                  final BluetoothGattCharacteristic characteristic) {
@@ -331,7 +330,7 @@ public class BluetoothLeService extends Service {
             final byte[] data = characteristic.getValue();
             if (data != null && data.length > 0) {
                 intent.putExtra(EXTRA_DATA, new String(data));
-        		sendBroadcast(intent);
+        		sendBroadcast(intent);                                                  //有夾帶value的intent
             }
 //        }
     }
@@ -369,14 +368,14 @@ public class BluetoothLeService extends Service {
         //第一步 先拿到BluetoothManager
     	System.out.println("BluetoothLeService initialize"+mBluetoothManager);
         if (mBluetoothManager == null) {
-            mBluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+            mBluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);                         //取得系統bluetoothmanager
             if (mBluetoothManager == null) {
                 Log.e(TAG, "Unable to initialize BluetoothManager.");
                 return false;
             }
         }
 
-        mBluetoothAdapter = mBluetoothManager.getAdapter();
+        mBluetoothAdapter = mBluetoothManager.getAdapter();                                                     //取得系統bluetoothmanager的Adapter
         //第二步 再拿到BluetoothAdapt
         if (mBluetoothAdapter == null) {
             Log.e(TAG, "Unable to obtain a BluetoothAdapter.");
@@ -528,7 +527,7 @@ public class BluetoothLeService extends Service {
      */
     //获得属性后需要进行判断设备是否支持notify操作，然后再设备打开notify通知
     public void setCharacteristicNotification(BluetoothGattCharacteristic characteristic,
-                                              boolean enabled) {
+                                              boolean enabled) {                                       //啟用計數器特性的通知
         if (mBluetoothAdapter == null || mBluetoothGatt == null) {
             Log.w(TAG, "BluetoothAdapter not initialized");
             return;

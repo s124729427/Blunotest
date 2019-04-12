@@ -163,7 +163,7 @@ public abstract  class BlunoLibrary  extends Activity{
 					return;
 				scanLeDevice(false);                                                 //呼叫scanLeDevice停止掃描
 
-		        if(device.getName()==null || device.getAddress()==null)                        //如果有一個是null，更改buttonj文字改成isToScan
+		        if(device.getName()==null || device.getAddress()==null)                        //如果有一個是null，更改button文字改成isToScan
 		        {
 		        	mConnectionState=connectionStateEnum.isToScan;
 		        	onConectionStateChange(mConnectionState);
@@ -630,7 +630,7 @@ public abstract  class BlunoLibrary  extends Activity{
         public void onServiceConnected(ComponentName componentName, IBinder service) {
             System.out.println("mServiceConnection onServiceConnected");
         	mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();                //取得mbluetoothleservice  與初始化
-            if (!mBluetoothLeService.initialize()) {
+            if (!mBluetoothLeService.initialize()) {                                                    //
                 Log.e(TAG, "Unable to initialize Bluetooth");
                 ((Activity) mainContext).finish();
             }
