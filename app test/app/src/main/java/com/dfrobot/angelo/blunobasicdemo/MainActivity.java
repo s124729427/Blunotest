@@ -65,7 +65,7 @@ public class MainActivity  extends BlunoLibrary {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 
-				buttonScanOnClickProcess();                                        //Alert Dialog for selecting the BLE device
+				buttonScanOnClickProcess();                                        //按下按鈕呼叫blumo的buttonScanOnClickProcess()//Alert Dialog for selecting the BLE device
 			}
 		});
 		buttonScan2.setOnClickListener(new OnClickListener() {
@@ -74,7 +74,7 @@ public class MainActivity  extends BlunoLibrary {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 
-				buttonScanOnClickProcess2();                                        //Alert Dialog for selecting the BLE device
+				buttonScanOnClickProcess2();                                         //按下按鈕呼叫blumo的buttonScanOnClickProcess()//Alert Dialog for selecting the BLE device
 			}
 		});
 	}
@@ -110,7 +110,7 @@ public class MainActivity  extends BlunoLibrary {
 	}
 
 	@Override
-	public void onConectionStateChange(connectionStateEnum theConnectionState) {//Once connection state changes, this function will be called
+	public void onConectionStateChange(connectionStateEnum theConnectionState) {//Once connection state changes, this function will be called  //改變button文字
 		switch (theConnectionState) {                                            //Four connection state
 			case isConnected:
 				buttonScan.setText("Connected");
@@ -131,7 +131,7 @@ public class MainActivity  extends BlunoLibrary {
 				break;
 		}
 	}
-	public void onConectionStateChange2(connectionStateEnum theConnectionState) {//Once connection state changes, this function will be called
+	public void onConectionStateChange2(connectionStateEnum theConnectionState) {//Once connection state changes, this function will be called   //改變button文字
 		switch (theConnectionState) {                                            //Four connection state
 			case isConnected:
 				buttonScan2.setText("Connected");
