@@ -179,7 +179,7 @@ public abstract  class BlunoLibrary  extends Activity{
 
 		        	if (mBluetoothLeService.connect(mDeviceAddress)) {                      //獲得connect address//跳到bluetoothleservice.java的connect()功能 //進行裝置連結
 				        Log.d(TAG, "Connect request success");
-			        	mConnectionState=connectionStateEnum.isConnecting;                     //更改buttonj文字改成isConnecting
+			        	mConnectionState=connectionStateEnum.isConnecting;                     //更改button文字改成isConnecting
 			        	onConectionStateChange(mConnectionState);
 			            mHandler.postDelayed(mConnectingOverTimeRunnable, 10000);
 		        	}
@@ -192,7 +192,7 @@ public abstract  class BlunoLibrary  extends Activity{
 		        }
 			}
 		})
-		.setOnCancelListener(new DialogInterface.OnCancelListener() {        //斷線  或  取消連線的監聽  //還未認真看   //但與其他城市連動性不大   //連帶影響關西不大   //可暫時忽略
+		.setOnCancelListener(new DialogInterface.OnCancelListener() {        //解除dialog//斷線  或  取消連線的監聽  //還未認真看   //但與其他城市連動性不大   //連帶影響關西不大   //可暫時忽略
 
 			@Override
 			public void onCancel(DialogInterface arg0) {
