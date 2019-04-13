@@ -33,6 +33,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -53,7 +54,10 @@ public class BluetoothLeService extends Service {
     private static final int STATE_CONNECTED = 2;
     public int mConnectionState = STATE_DISCONNECTED;
 
-    
+    private ArrayList<BluetoothGatt> connectionQueue = new ArrayList<BluetoothGatt>();
+
+
+
     //To tell the onCharacteristicWrite call back function that this is a new characteristic, 
     //not the Write Characteristic to the device successfully.
     private static final int WRITE_NEW_CHARACTERISTIC = -1;
@@ -429,6 +433,9 @@ public class BluetoothLeService extends Service {
 		synchronized(this)
 		{
 			mBluetoothGatt = device.connectGatt(this, false, mGattCallback);
+            if(checkGatt(mBluetoothGatt)){
+                connectionQueue.add(mBluetoothGatt);
+            }
 		}
         Log.d(TAG, "Trying to create a new connection.");
         mBluetoothDeviceAddress = address;
@@ -436,6 +443,18 @@ public class BluetoothLeService extends Service {
         mConnectionState = STATE_CONNECTING;
         return true;
     }
+
+    private boolean checkGatt(BluetoothGatt bluetoothGatt) {
+        if (!connectionQueue.isEmpty()) {
+            for(BluetoothGatt btg:connectionQueue){
+                if(btg.equals(bluetoothGatt)){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
 
     /**
      * Disconnects an existing connection or cancel a pending connection. The disconnection result

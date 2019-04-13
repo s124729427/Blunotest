@@ -81,6 +81,8 @@ public abstract  class BlunoLibrary  extends Activity{
 	public connectionStateEnum mConnectionState = connectionStateEnum.isNull;
 	private static final int REQUEST_ENABLE_BT = 1;
 
+	private ArrayList<BluetoothDevice> mDeviceList = new ArrayList<BluetoothDevice>();
+
 	private Handler mHandler= new Handler();
 	
 	public boolean mConnected = false;
@@ -110,6 +112,8 @@ public abstract  class BlunoLibrary  extends Activity{
 	public static final String SerialPortUUID="0000dfb1-0000-1000-8000-00805f9b34fb";
 	public static final String CommandUUID="0000dfb2-0000-1000-8000-00805f9b34fb";
     public static final String ModelNumberStringUUID="00002a24-0000-1000-8000-00805f9b34fb";
+	public static final String address1="A4:D5:78:0D:93:33";
+	public static final String address2="A4:D5:78:0D:01:D4";
 	
     public void onCreateProcess()
     {
@@ -138,7 +142,7 @@ public abstract  class BlunoLibrary  extends Activity{
 				final BluetoothDevice device = mLeDeviceListAdapter.getDevice(which);
 				if (device == null)
 					return;
-				scanLeDevice(false);//如果device是null //呼叫scanLeDevice停止掃描
+				scanLeDevice(false);
 
 		        if(device.getName()==null || device.getAddress()==null)
 		        {
@@ -356,14 +360,14 @@ public abstract  class BlunoLibrary  extends Activity{
 			mConnectionState=connectionStateEnum.isScanning;
 			onConectionStateChange(mConnectionState);
 			scanLeDevice(true);
-			mScanDeviceDialog.show();
+			//mScanDeviceDialog.show();
 			//出現連結畫面
 			break;
 		case isToScan:
 			mConnectionState=connectionStateEnum.isScanning;
 			onConectionStateChange(mConnectionState);
 			scanLeDevice(true);
-			mScanDeviceDialog.show();
+			//mScanDeviceDialog.show();
 			break;
 		case isScanning:
 			
@@ -448,13 +452,52 @@ public abstract  class BlunoLibrary  extends Activity{
 				@Override
 				public void run() {
 					System.out.println("mLeScanCallback onLeScan run ");
-					mLeDeviceListAdapter.addDevice(device);//添加到设备列表，原代码中少了这句，导致后连接的设备盖了前面的设备
-					mLeDeviceListAdapter.notifyDataSetChanged();
+					if(!equals(device)) {
+						if(device.getAddress().equals(address1) || device.getAddress().equals(address2) ) {
+							mDeviceList.add(device);
+							connectBle(device);
+							//mLeDeviceListAdapter.addDevice(device);//添加到设备列表，原代码中少了这句，导致后连接的设备盖了前面的设备
+							//mLeDeviceListAdapter.notifyDataSetChanged();
+						}
+					}
 				}
 			});
 		}
 	};
-	
+
+	private void connectBle(BluetoothDevice device) {
+		while (true) {
+			if (device == null)
+				return;
+			scanLeDevice(false);
+
+			if (device.getName() == null || device.getAddress() == null) {
+				mConnectionState = connectionStateEnum.isToScan;
+				onConectionStateChange(mConnectionState);
+			} else {
+
+				System.out.println("onListItemClick " + device.getName().toString());
+
+				System.out.println("Device Name:" + device.getName() + "   " + "Device Name:" + device.getAddress());
+
+				mDeviceName = device.getName().toString();
+				mDeviceAddress = device.getAddress().toString();
+				if (mBluetoothLeService != null) {
+					if (mBluetoothLeService.connect(device.getAddress())) {
+						Log.d(TAG, "Connect request success");
+						mConnectionState = connectionStateEnum.isConnecting;
+						onConectionStateChange(mConnectionState);
+						mHandler.postDelayed(mConnectingOverTimeRunnable, 10000);
+					} else {
+						Log.d(TAG, "Connect request fail");
+						mConnectionState = connectionStateEnum.isToScan;
+						onConectionStateChange(mConnectionState);
+					}
+					break;
+				}
+			}
+		}
+	}
     private void getGattServices(List<BluetoothGattService> gattServices) {
 		//連線到裝置之後獲取裝置的服務(Service)和服務對應的Characteristic
         if (gattServices == null) return;
