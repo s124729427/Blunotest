@@ -33,12 +33,6 @@ public abstract  class BlunoLibrary  extends Activity{
 
 	private Context mainContext=this;
 
-	
-//	public BlunoLibrary(Context theContext) {
-//		
-//		mainContext=theContext;
-//	}
-
 	public abstract void onConectionStateChange(connectionStateEnum theconnectionStateEnum);
 	public abstract void onSerialReceived(String theString);
 	public void serialSend(String theString){
@@ -50,28 +44,18 @@ public abstract  class BlunoLibrary  extends Activity{
 	
 	private int mBaudrate=115200;	//set the default baud rate to 115200//藍芽連結率設定//與硬體設備鮑褒率相同
 	private String mPassword="AT+PASSWOR=DFRobot\r\n";
-	
-	
+
 	private String mBaudrateBuffer = "AT+CURRUART="+mBaudrate+"\r\n";
-	
-//	byte[] mBaudrateBuffer={0x32,0x00,(byte) (mBaudrate & 0xFF),(byte) ((mBaudrate>>8) & 0xFF),(byte) ((mBaudrate>>16) & 0xFF),0x00};;
-	
-	
+
 	public void serialBegin(int baud){
 		mBaudrate=baud;
 		mBaudrateBuffer = "AT+CURRUART="+mBaudrate+"\r\n";
 	}
-	
-	
-	static class ViewHolder {
-		TextView deviceName;
-		TextView deviceAddress;
-	}
+
     private static BluetoothGattCharacteristic mSCharacteristic, mModelNumberCharacteristic, mSerialPortCharacteristic, mCommandCharacteristic;
     BluetoothLeService mBluetoothLeService;
     private ArrayList<ArrayList<BluetoothGattCharacteristic>> mGattCharacteristics =
             new ArrayList<ArrayList<BluetoothGattCharacteristic>>();
-	private LeDeviceListAdapter mLeDeviceListAdapter=null;
 	private BluetoothAdapter mBluetoothAdapter;
 	private boolean mScanning =false;
 	AlertDialog mScanDeviceDialog;
@@ -114,6 +98,8 @@ public abstract  class BlunoLibrary  extends Activity{
     public static final String ModelNumberStringUUID="00002a24-0000-1000-8000-00805f9b34fb";
 	public static final String address1="A4:D5:78:0D:93:33";
 	public static final String address2="A4:D5:78:0D:01:D4";
+	private boolean address1blooean = true;
+	private boolean address2blooean = true;
 	
     public void onCreateProcess()
     {
@@ -123,82 +109,14 @@ public abstract  class BlunoLibrary  extends Activity{
 					Toast.LENGTH_SHORT).show();
 			((Activity) mainContext).finish();
 		}
-
-
 		Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
 		bindService(gattServiceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
-        
-		// Initializes list view adapter.
-		mLeDeviceListAdapter = new LeDeviceListAdapter();
-		// LeDeviceListAdapter定義在最下面自訂義對話框(dialog)
-		// Initializes and show the scan Device Dialog
-		mScanDeviceDialog = new AlertDialog.Builder(mainContext)
-		.setTitle("BLE Device Scan...").setAdapter(mLeDeviceListAdapter, new DialogInterface.OnClickListener() {
-					//自訂義對話框使用setAdapter
-					//監聽觸及事件
-			@Override
-			public void onClick(DialogInterface dialog, int which)
-			{
-				final BluetoothDevice device = mLeDeviceListAdapter.getDevice(which);
-				if (device == null)
-					return;
-				scanLeDevice(false);
-
-		        if(device.getName()==null || device.getAddress()==null)
-		        {
-		        	mConnectionState=connectionStateEnum.isToScan;
-		        	onConectionStateChange(mConnectionState);
-		        }
-		        else{
-
-					System.out.println("onListItemClick " + device.getName().toString());
-
-					System.out.println("Device Name:"+device.getName() + "   " + "Device Name:" + device.getAddress());
-
-					mDeviceName=device.getName().toString();
-					mDeviceAddress=device.getAddress().toString();
-//就在這段//connect address//跳到bluetoothleservice.java的connect()功能
-		        	if (mBluetoothLeService.connect(mDeviceAddress)) {
-				        Log.d(TAG, "Connect request success");
-			        	mConnectionState=connectionStateEnum.isConnecting;
-			        	onConectionStateChange(mConnectionState);
-			            mHandler.postDelayed(mConnectingOverTimeRunnable, 10000);
-		        	}
-//解析跳掉連結選項畫面的code是哪個
-			        else {
-				        Log.d(TAG, "Connect request fail");
-			        	mConnectionState=connectionStateEnum.isToScan;
-			        	onConectionStateChange(mConnectionState);
-					}
-		        }
-			}
-		})
-		.setOnCancelListener(new DialogInterface.OnCancelListener() {
-
-			@Override
-			public void onCancel(DialogInterface arg0) {
-				System.out.println("mBluetoothAdapter.stopLeScan");
-
-				mConnectionState = connectionStateEnum.isToScan;
-				onConectionStateChange(mConnectionState);
-				mScanDeviceDialog.dismiss();
-
-				scanLeDevice(false);
-			}
-		}).create();
-		
     }
-    
-    
+
+
     
     public void onResumeProcess() {
     	System.out.println("BlUNOActivity onResume");
-		// Ensures Bluetooth is enabled on the device. If Bluetooth is not
-		// currently enabled,
-		// fire an intent to display a dialog asking the user to grant
-		// permission to enable it.
-		//第四部
-		//获取 BluetoothAdapter
 		if (!mBluetoothAdapter.isEnabled()) {
 			if (!mBluetoothAdapter.isEnabled()) {
 				Intent enableBtIntent = new Intent(
@@ -206,10 +124,7 @@ public abstract  class BlunoLibrary  extends Activity{
 				((Activity) mainContext).startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
 			}
 		}
-		//跳转到设置界面
-		
 	    mainContext.registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
-
 	}
     
 
@@ -217,7 +132,7 @@ public abstract  class BlunoLibrary  extends Activity{
     	System.out.println("BLUNOActivity onPause");
 		scanLeDevice(false);
 		mainContext.unregisterReceiver(mGattUpdateReceiver);
-		mLeDeviceListAdapter.clear();
+		//mLeDeviceListAdapter.clear();
     	mConnectionState=connectionStateEnum.isToScan;
     	onConectionStateChange(mConnectionState);
 		mScanDeviceDialog.dismiss();
@@ -229,7 +144,6 @@ public abstract  class BlunoLibrary  extends Activity{
 //			mBluetoothLeService.close();
 		}
 		mSCharacteristic=null;
-
 	}
 
 	
@@ -237,8 +151,6 @@ public abstract  class BlunoLibrary  extends Activity{
 		System.out.println("MiUnoActivity onStop");
 		if(mBluetoothLeService!=null)
 		{
-//			mBluetoothLeService.disconnect();
-//            mHandler.postDelayed(mDisonnectingOverTimeRunnable, 10000);
         	mHandler.removeCallbacks(mDisonnectingOverTimeRunnable);
 			mBluetoothLeService.close();
 		}
@@ -251,7 +163,6 @@ public abstract  class BlunoLibrary  extends Activity{
 	}
 	
 	public void onActivityResultProcess(int requestCode, int resultCode, Intent data) {
-		// User chose not to enable Bluetooth.
 		if (requestCode == REQUEST_ENABLE_BT
 				&& resultCode == Activity.RESULT_CANCELED) {
 			((Activity) mainContext).finish();
@@ -261,40 +172,23 @@ public abstract  class BlunoLibrary  extends Activity{
 
 	boolean initiate()
 	{
-		// Use this check to determine whether BLE is supported on the device.
-		// Then you can
-		// selectively disable BLE-related features.
 		if (!mainContext.getPackageManager().hasSystemFeature(
 				PackageManager.FEATURE_BLUETOOTH_LE)) {
 			return false;
 		}
-		
-		// Initializes a Bluetooth adapter. For API level 18 and above, get a
-		// reference to
-		// BluetoothAdapter through BluetoothManager.
-		//ACTIVITY顯示畫面前第二步
 		final BluetoothManager bluetoothManager = (BluetoothManager) mainContext.getSystemService(Context.BLUETOOTH_SERVICE);
 		mBluetoothAdapter = bluetoothManager.getAdapter();
-	
-		// Checks if Bluetooth is supported on the device.
 		if (mBluetoothAdapter == null) {
 			return false;
 		}
 		return true;
 	}
-	
-	 // Handles various events fired by the Service.
-    // ACTION_GATT_CONNECTED: connected to a GATT server.
-    // ACTION_GATT_DISCONNECTED: disconnected from a GATT server.
-    // ACTION_GATT_SERVICES_DISCOVERED: discovered GATT services.
-    // ACTION_DATA_AVAILABLE: received data from the device.  This can be a result of read
-    //                        or notification operations.
+
     private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
         @SuppressLint("DefaultLocale")
 		@Override
         public void onReceive(Context context, Intent intent) {
         	final String action = intent.getAction();
- //           System.out.println("mGattUpdateReceiver->onReceive->action="+action);
             if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
                 mConnected = true;
             	mHandler.removeCallbacks(mConnectingOverTimeRunnable);
@@ -306,7 +200,6 @@ public abstract  class BlunoLibrary  extends Activity{
             	mHandler.removeCallbacks(mDisonnectingOverTimeRunnable);
             	mBluetoothLeService.close();
             } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
-                // Show all the supported services and characteristics on the user interface.
             	for (BluetoothGattService gattService : mBluetoothLeService.getSupportedGattServices()) {
             		System.out.println("ACTION_GATT_SERVICES_DISCOVERED  "+
             				gattService.getUuid().toString());
@@ -340,15 +233,7 @@ public abstract  class BlunoLibrary  extends Activity{
 					String theString = intent.getStringExtra(BluetoothLeService.EXTRA_DATA);
             		onSerialReceived(theString);
 				}
-            	
-            
             	System.out.println("displayData "+intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
-
-//            	mPlainProtocol.mReceivedframe.append(intent.getStringExtra(BluetoothLeService.EXTRA_DATA)) ;
-//            	System.out.print("mPlainProtocol.mReceivedframe:");
-//            	System.out.println(mPlainProtocol.mReceivedframe.toString());
-
-            	
             }
         }
     };
@@ -360,14 +245,11 @@ public abstract  class BlunoLibrary  extends Activity{
 			mConnectionState=connectionStateEnum.isScanning;
 			onConectionStateChange(mConnectionState);
 			scanLeDevice(true);
-			//mScanDeviceDialog.show();
-			//出現連結畫面
 			break;
 		case isToScan:
 			mConnectionState=connectionStateEnum.isScanning;
 			onConectionStateChange(mConnectionState);
 			scanLeDevice(true);
-			//mScanDeviceDialog.show();
 			break;
 		case isScanning:
 			
@@ -379,8 +261,6 @@ public abstract  class BlunoLibrary  extends Activity{
 		case isConnected:
 			mBluetoothLeService.disconnect();
             mHandler.postDelayed(mDisonnectingOverTimeRunnable, 10000);
-
-//			mBluetoothLeService.close();
 			mConnectionState=connectionStateEnum.isDisconnecting;
 			onConectionStateChange(mConnectionState);
 			break;
@@ -397,21 +277,11 @@ public abstract  class BlunoLibrary  extends Activity{
     
 	void scanLeDevice(final boolean enable) {
 		if (enable) {
-			// Stops scanning after a pre-defined scan period.
-//按下按鈕第一步
 			System.out.println("mBluetoothAdapter.startLeScan");
-			
-			if(mLeDeviceListAdapter != null)
-			{
-				mLeDeviceListAdapter.clear();
-				mLeDeviceListAdapter.notifyDataSetChanged();
-			}
-			
 			if(!mScanning)
 			{
 				mScanning = true;
 				mBluetoothAdapter.startLeScan(mLeScanCallback);
-				//开始扫描
 			}
 		} else {
 			if(mScanning)
@@ -421,8 +291,7 @@ public abstract  class BlunoLibrary  extends Activity{
 			}
 		}
 	}
-	
-	// Code to manage Service lifecycle.
+
    	 ServiceConnection mServiceConnection = new ServiceConnection() {
 
         @Override
@@ -442,9 +311,7 @@ public abstract  class BlunoLibrary  extends Activity{
         }
     };
 
-	// Device scan callback.
 	private BluetoothAdapter.LeScanCallback mLeScanCallback = new BluetoothAdapter.LeScanCallback() {
-
 		@Override
 		public void onLeScan(final BluetoothDevice device, int rssi,
 				byte[] scanRecord) {
@@ -453,11 +320,17 @@ public abstract  class BlunoLibrary  extends Activity{
 				public void run() {
 					System.out.println("mLeScanCallback onLeScan run ");
 					if(!equals(device)) {
-						if(device.getAddress().equals(address1) || device.getAddress().equals(address2) ) {
-							mDeviceList.add(device);
-							connectBle(device);
-							//mLeDeviceListAdapter.addDevice(device);//添加到设备列表，原代码中少了这句，导致后连接的设备盖了前面的设备
-							//mLeDeviceListAdapter.notifyDataSetChanged();
+						//if(device.getAddress().equals(address1) || device.getAddress().equals(address2) ) {
+							if( address1blooean == true || address2blooean == true) {
+								if(device.getAddress().equals(address1)) {
+									mDeviceList.add(device);
+									address1blooean = false;
+									connectBle(device);
+								}else if(device.getAddress().equals(address2)){
+									mDeviceList.add(device);
+									address2blooean = false;
+									connectBle(device);
+								}
 						}
 					}
 				}
@@ -507,7 +380,6 @@ public abstract  class BlunoLibrary  extends Activity{
         mCommandCharacteristic=null;
         mGattCharacteristics = new ArrayList<ArrayList<BluetoothGattCharacteristic>>();
 
-        // Loops through available GATT Services.
         for (BluetoothGattService gattService : gattServices) {
             uuid = gattService.getUuid().toString();
             System.out.println("displayGattServices + uuid="+uuid);
@@ -517,7 +389,6 @@ public abstract  class BlunoLibrary  extends Activity{
             ArrayList<BluetoothGattCharacteristic> charas =
                     new ArrayList<BluetoothGattCharacteristic>();
 
-            // Loops through available Characteristics.
             for (BluetoothGattCharacteristic gattCharacteristic : gattCharacteristics) {
                 charas.add(gattCharacteristic);
                 uuid = gattCharacteristic.getUuid().toString();
@@ -528,12 +399,10 @@ public abstract  class BlunoLibrary  extends Activity{
                 else if(uuid.equals(SerialPortUUID)){
                 	mSerialPortCharacteristic = gattCharacteristic;
                 	System.out.println("mSerialPortCharacteristic  "+mSerialPortCharacteristic.getUuid().toString());
-//                    updateConnectionState(R.string.comm_establish);
                 }
                 else if(uuid.equals(CommandUUID)){
                 	mCommandCharacteristic = gattCharacteristic;
                 	System.out.println("mSerialPortCharacteristic  "+mSerialPortCharacteristic.getUuid().toString());
-//                    updateConnectionState(R.string.comm_establish);
                 }
             }
             mGattCharacteristics.add(charas);
@@ -544,12 +413,13 @@ public abstract  class BlunoLibrary  extends Activity{
             mConnectionState = connectionStateEnum.isToScan;
             onConectionStateChange(mConnectionState);
 		}
+
         else {
         	mSCharacteristic=mModelNumberCharacteristic;
         	mBluetoothLeService.setCharacteristicNotification(mSCharacteristic, true);
         	mBluetoothLeService.readCharacteristic(mSCharacteristic);
 		}
-        
+
     }
     
     private static IntentFilter makeGattUpdateIntentFilter() {
@@ -560,72 +430,5 @@ public abstract  class BlunoLibrary  extends Activity{
         intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
         return intentFilter;
     }
-	
-	private class LeDeviceListAdapter extends BaseAdapter {
-		private ArrayList<BluetoothDevice> mLeDevices;
-		private LayoutInflater mInflator;
 
-		public LeDeviceListAdapter() {
-			super();
-			mLeDevices = new ArrayList<BluetoothDevice>();
-			mInflator =  ((Activity) mainContext).getLayoutInflater();
-		}
-
-		public void addDevice(BluetoothDevice device) {
-			if (!mLeDevices.contains(device)) {
-				mLeDevices.add(device);
-			}
-		}
-
-		public BluetoothDevice getDevice(int position) {
-			return mLeDevices.get(position);
-		}
-
-		public void clear() {
-			mLeDevices.clear();
-		}
-
-		@Override
-		public int getCount() {
-			return mLeDevices.size();
-		}
-
-		@Override
-		public Object getItem(int i) {
-			return mLeDevices.get(i);
-		}
-
-		@Override
-		public long getItemId(int i) {
-			return i;
-		}
-
-		@Override
-		public View getView(int i, View view, ViewGroup viewGroup) {
-			ViewHolder viewHolder;
-			// General ListView optimization code.
-			if (view == null) {
-				view = mInflator.inflate(R.layout.listitem_device, null);
-				viewHolder = new ViewHolder();
-				viewHolder.deviceAddress = (TextView) view
-						.findViewById(R.id.device_address);
-				viewHolder.deviceName = (TextView) view
-						.findViewById(R.id.device_name);
-				System.out.println("mInflator.inflate  getView");
-				view.setTag(viewHolder);
-			} else {
-				viewHolder = (ViewHolder) view.getTag();
-			}
-
-			BluetoothDevice device = mLeDevices.get(i);
-			final String deviceName = device.getName();
-			if (deviceName != null && deviceName.length() > 0)
-				viewHolder.deviceName.setText(deviceName);
-			else
-				viewHolder.deviceName.setText(R.string.unknown_device);
-			viewHolder.deviceAddress.setText(device.getAddress());
-
-			return view;
-		}
-	}
 }
