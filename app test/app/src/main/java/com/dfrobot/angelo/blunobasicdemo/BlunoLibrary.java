@@ -133,7 +133,7 @@ public abstract  class BlunoLibrary  extends Activity{
 			}
 		}
 	    mainContext.registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
-		mainContext.registerReceiver(mGattUpdateReceiver2, makeGattUpdateIntentFilter());
+		mainContext.registerReceiver(mGattUpdateReceiver2, makeGattUpdateIntentFilter2());
 	}
     
 
@@ -245,19 +245,19 @@ public abstract  class BlunoLibrary  extends Activity{
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			final String action = intent.getAction();
-			if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
+			if (BluetoothLeService.ACTION_GATT_CONNECTED2.equals(action)) {
 				mConnected = true;
 				mHandler2.removeCallbacks(mConnectingOverTimeRunnable);
 
-			} else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
+			} else if (BluetoothLeService.ACTION_GATT_DISCONNECTED2.equals(action)) {
 				mConnected = false;
 				mConnectionState2 = connectionStateEnum.isToScan;
 				onConectionStateChange2(mConnectionState2);
 				mHandler2.removeCallbacks(mDisonnectingOverTimeRunnable);
 				mBluetoothLeService2.close();
-			} else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
+			} else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED2.equals(action)) {
 				getGattServices2(mBluetoothLeService2.getSupportedGattServices());
-			} else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
+			} else if (BluetoothLeService.ACTION_DATA_AVAILABLE2.equals(action)) {
 				if (mSCharacteristic2==mSerialPortCharacteristic2) {
 					mConnectionState2 = connectionStateEnum.isConnected;
 					onConectionStateChange2(mConnectionState2);
@@ -593,5 +593,13 @@ public abstract  class BlunoLibrary  extends Activity{
         intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
         return intentFilter;
     }
+	private static IntentFilter makeGattUpdateIntentFilter2() {
+		final IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED2);
+		intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED2);
+		intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED2);
+		intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE2);
+		return intentFilter;
+	}
 
 }

@@ -64,6 +64,16 @@ public class BluetoothLeService extends Service {
             "com.example.bluetooth.le.ACTION_GATT_SERVICES_DISCOVERED";
     public final static String ACTION_DATA_AVAILABLE =
             "com.example.bluetooth.le.ACTION_DATA_AVAILABLE";
+
+    public final static String ACTION_GATT_CONNECTED2 =
+            "com.example.bluetooth.le.ACTION_GATT_CONNECTED";
+    public final static String ACTION_GATT_DISCONNECTED2 =
+            "com.example.bluetooth.le.ACTION_GATT_DISCONNECTED";
+    public final static String ACTION_GATT_SERVICES_DISCOVERED2 =
+            "com.example.bluetooth.le.ACTION_GATT_SERVICES_DISCOVERED";
+    public final static String ACTION_DATA_AVAILABLE2 =
+            "com.example.bluetooth.le.ACTION_DATA_AVAILABLE";
+
     public final static String EXTRA_DATA =
             "com.example.bluetooth.le.EXTRA_DATA";
     public final static String EXTRA_DATA2 =
@@ -134,6 +144,75 @@ public class BluetoothLeService extends Service {
                                             BluetoothGattCharacteristic characteristic) {
         	System.out.println("onCharacteristicChanged  "+new String(characteristic.getValue()));
             broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic, gatt);
+        }
+
+    };
+
+    private final BluetoothGattCallback mGattCallback2 = new BluetoothGattCallback() {
+        @Override
+        //寫入成功之後，開始讀取裝置返回來的資料。
+        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+            String intentAction;
+            System.out.println("BluetoothGattCallback----onConnectionStateChange"+newState);
+
+            if (newState == BluetoothProfile.STATE_CONNECTED) {
+                intentAction = ACTION_GATT_CONNECTED2;
+                mConnectionState = STATE_CONNECTED;
+                broadcastUpdate(intentAction);
+                Log.i(TAG, "Connected to GATT server.");
+                // Attempts to discover services after successful connection.
+                if(mBluetoothGatt.discoverServices())
+                {
+                    Log.i(TAG, "Attempting to start service discovery:");
+                }
+                else{
+                    Log.i(TAG, "Attempting to start service discovery:not success");
+                }
+            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+                intentAction = ACTION_GATT_DISCONNECTED2;
+                mConnectionState = STATE_DISCONNECTED;
+                Log.i(TAG, "Disconnected from GATT server.");
+                broadcastUpdate(intentAction);
+            }
+        }
+
+        @Override
+        //// New services discovered//发现新的服务
+        public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+            System.out.println("onServicesDiscovered "+status);
+            if (status == BluetoothGatt.GATT_SUCCESS) {
+                broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED2);
+            } else {
+                Log.w(TAG, "onServicesDiscovered received: " + status);
+            }
+        }
+
+        @Override
+        // // 接收数据
+        //getValue 可以读取到蓝牙设备的数据
+        //從特徵中讀取資料
+        public void onCharacteristicRead(BluetoothGatt gatt,
+                                         BluetoothGattCharacteristic characteristic,
+                                         int status) {
+            if (status == BluetoothGatt.GATT_SUCCESS) {
+                System.out.println("onCharacteristicRead  "+characteristic.getUuid().toString());
+                broadcastUpdate(ACTION_DATA_AVAILABLE2, characteristic, gatt);
+            }
+        }
+        @Override
+        // //notify 会回调用此方法
+        public void  onDescriptorWrite(BluetoothGatt gatt,
+                                       BluetoothGattDescriptor characteristic,
+                                       int status){
+            System.out.println("onDescriptorWrite  "+characteristic.getUuid().toString()+" "+status);
+        }
+
+
+        @Override
+        public void onCharacteristicChanged(BluetoothGatt gatt,
+                                            BluetoothGattCharacteristic characteristic) {
+            System.out.println("onCharacteristicChanged  "+new String(characteristic.getValue()));
+            broadcastUpdate(ACTION_DATA_AVAILABLE2, characteristic, gatt);
         }
 
     };
