@@ -56,15 +56,6 @@ public class BluetoothLeService extends Service {
     public static final String address1="A4:D5:78:0D:93:33";
     public static final String address2="A4:D5:78:0D:01:D4";
 
-    private class BluetoothGattCharacteristicHelper{
-    	BluetoothGattCharacteristic mCharacteristic;
-    	String mCharacteristicValue;
-    	BluetoothGattCharacteristicHelper(BluetoothGattCharacteristic characteristic, String characteristicValue){
-    		mCharacteristic=characteristic;
-    		mCharacteristicValue=characteristicValue;
-    	}
-    }
-
     public final static String ACTION_GATT_CONNECTED =
             "com.example.bluetooth.le.ACTION_GATT_CONNECTED";
     public final static String ACTION_GATT_DISCONNECTED =
@@ -149,10 +140,8 @@ public class BluetoothLeService extends Service {
 
     private void broadcastUpdate(final String action) {
         final Intent intent = new Intent(action);
-        //顯示ACTIVITY
         sendBroadcast(intent);
     }
-    //第五步
 
     private void broadcastUpdate(final String action,
                                  final BluetoothGattCharacteristic characteristic,final BluetoothGatt gatt) {
@@ -248,7 +237,6 @@ public class BluetoothLeService extends Service {
     }
 
     public void disconnect() {
-        //斷開連線
     	System.out.println("BluetoothLeService disconnect");
         if (mBluetoothAdapter == null || mBluetoothGatt == null) {
             Log.w(TAG, "BluetoothAdapter not initialized");
@@ -274,7 +262,6 @@ public class BluetoothLeService extends Service {
             return;
         }
         mBluetoothGatt.setCharacteristicNotification(characteristic, enabled);
-
         //if(currentDevice == 0){
        //     currentDevice = 1;
        // }else{
@@ -283,11 +270,8 @@ public class BluetoothLeService extends Service {
     }
 
     public List<BluetoothGattService> getSupportedGattServices() {
-
         if (mBluetoothGatt == null) return null;
-
         return mBluetoothGatt.getServices();
     }
-
 
 }

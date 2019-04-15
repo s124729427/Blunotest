@@ -125,6 +125,28 @@ public class MainActivity  extends BlunoLibrary {
 		}
 	}
 
+	public void onConectionStateChange2(connectionStateEnum theConnectionState) {//Once connection state changes, this function will be called
+		switch (theConnectionState) {                                            //Four connection state
+			case isConnected:
+				buttonScan2.setText("Connected");
+				break;
+			case isConnecting:
+				buttonScan2.setText("Connecting");
+				break;
+			case isToScan:
+				buttonScan2.setText("Scan");
+				break;
+			case isScanning:
+				buttonScan2.setText("Scanning");
+				break;
+			case isDisconnecting:
+				buttonScan2.setText("isDisconnecting");
+				break;
+			default:
+				break;
+		}
+	}
+
 	@Override
 	public void onSerialReceived(String theString){                            //Once connection data received, this function will be called
 		// TODO Auto-generated method stub
