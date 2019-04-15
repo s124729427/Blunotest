@@ -22,11 +22,6 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public abstract  class BlunoLibrary  extends Activity{
@@ -36,16 +31,9 @@ public abstract  class BlunoLibrary  extends Activity{
 	public abstract void onConectionStateChange(connectionStateEnum theconnectionStateEnum);
 	public abstract void onSerialReceived(String theString);
 	public abstract void onSerialReceived2(String theString);
-	public void serialSend(String theString){
-		if (mConnectionState == connectionStateEnum.isConnected) {
-			mSCharacteristic.setValue(theString);
-			mBluetoothLeService.writeCharacteristic(mSCharacteristic);
-		}
-	}
+
 	
 	private int mBaudrate=115200;	//set the default baud rate to 115200//藍芽連結率設定//與硬體設備鮑褒率相同
-	private String mPassword="AT+PASSWOR=DFRobot\r\n";
-
 	private String mBaudrateBuffer = "AT+CURRUART="+mBaudrate+"\r\n";
 
 	public void serialBegin(int baud){
@@ -384,7 +372,6 @@ public abstract  class BlunoLibrary  extends Activity{
         else {
         	mSCharacteristic=mSerialPortCharacteristic;
         	mBluetoothLeService.setCharacteristicNotification(mSCharacteristic, true);
-        	mBluetoothLeService.readCharacteristic(mSCharacteristic);
 		}
 
     }
