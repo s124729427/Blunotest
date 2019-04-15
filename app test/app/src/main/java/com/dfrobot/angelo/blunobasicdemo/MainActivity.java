@@ -16,8 +16,10 @@ import java.io.*;
 
 public class MainActivity  extends BlunoLibrary {
 	private Button buttonScan;
+	private Button buttonScan2;
 
 	private TextView test, text1, text2, text3, text4, text5, text6, text7, text8;
+	private TextView test2;
 
 
 	@Override
@@ -36,6 +38,8 @@ public class MainActivity  extends BlunoLibrary {
 		text6 = (TextView) findViewById(R.id.text6);
 		text7 = (TextView) findViewById(R.id.text7);
 		text8 = (TextView) findViewById(R.id.text8);
+
+		test2 = (TextView) findViewById(R.id.testtest2);
 
 		serialBegin(115200);    //set the default baud rate to 115200//藍芽連結率設定//與硬體設備鮑褒率相同                                                //set the Uart Baudrate on BLE chip to 115200
 
@@ -129,7 +133,14 @@ public class MainActivity  extends BlunoLibrary {
 			}
 		}
 	}
+	public void onSerialReceived2(String theString){                            //Once connection data received, this function will be called
+		// TODO Auto-generated method stub
+		test2.append(theString);                            //append the text into the EditText
+
+	}
 }
+
+
 
 /*
 		//The Serial data from the BLUNO may be sub-packaged, so using a buffer to hold the String is a good choice.
