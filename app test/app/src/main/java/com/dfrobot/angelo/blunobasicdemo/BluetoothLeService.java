@@ -53,12 +53,6 @@ public class BluetoothLeService extends Service {
 
     private ArrayList<BluetoothGatt> connectionQueue = new ArrayList<BluetoothGatt>();
 
-    private static final int WRITE_NEW_CHARACTERISTIC = -1;
-
-    private static final int MAX_CHARACTERISTIC_LENGTH = 17;
-
-    private boolean mIsWritingCharacteristic=false;
-
     public static final String address1="A4:D5:78:0D:93:33";
     public static final String address2="A4:D5:78:0D:01:D4";
 
@@ -70,8 +64,6 @@ public class BluetoothLeService extends Service {
     		mCharacteristicValue=characteristicValue;
     	}
     }
-
-    private RingBuffer<BluetoothGattCharacteristicHelper> mCharacteristicRingBuffer = new RingBuffer<BluetoothGattCharacteristicHelper>(8);
 
     public final static String ACTION_GATT_CONNECTED =
             "com.example.bluetooth.le.ACTION_GATT_CONNECTED";
@@ -85,8 +77,6 @@ public class BluetoothLeService extends Service {
             "com.example.bluetooth.le.EXTRA_DATA";
     public final static String EXTRA_DATA2 =
             "com.example.bluetooth.le.EXTRA_DATA2";
-
-
 
     private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
         @Override
@@ -275,39 +265,6 @@ public class BluetoothLeService extends Service {
         mBluetoothGatt.close();
         mBluetoothGatt = null;
     }
-
-    public void readCharacteristic(BluetoothGattCharacteristic characteristic) {
-        //通知系统去读取特定的数据
-        if (mBluetoothAdapter == null || mBluetoothGatt == null) {
-            Log.w(TAG, "BluetoothAdapter not initialized");
-            return;
-        }
-        mBluetoothGatt.readCharacteristic(characteristic);
-    }
-
-    public void writeCharacteristic(BluetoothGattCharacteristic characteristic) {
-        //獲取到特徵之後，找到服務中可以向下位機寫指令的特徵，向該特徵寫入指令
-        //寫入成功之後，開始onConnectionStateChange讀取裝置返回來的資料。
-        if (mBluetoothAdapter == null || mBluetoothGatt == null) {
-            Log.w(TAG, "BluetoothAdapter not initialized");
-            return;
-        }
-
-        String writeCharacteristicString;
-        try {
-            writeCharacteristicString = new String(characteristic.getValue(),"ISO-8859-1");
-        } catch (UnsupportedEncodingException e) {
-            // this should never happen because "US-ASCII" is hard-coded.
-            throw new IllegalStateException(e);
-        }
-        System.out.println("allwriteCharacteristicString:"+writeCharacteristicString);
-
-        mCharacteristicRingBuffer.push(new BluetoothGattCharacteristicHelper(characteristic,writeCharacteristicString) );
-        System.out.println("mCharacteristicRingBufferlength:"+mCharacteristicRingBuffer.size());
-
-        mGattCallback.onCharacteristicWrite(mBluetoothGatt, characteristic, WRITE_NEW_CHARACTERISTIC);
-    }
-
     //获得属性后需要进行判断设备是否支持notify操作，然后再设备打开notify通知
     public void setCharacteristicNotification(BluetoothGattCharacteristic characteristic,
                                               boolean enabled) {

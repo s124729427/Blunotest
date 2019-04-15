@@ -36,15 +36,16 @@ public abstract  class BlunoLibrary  extends Activity{
 	public abstract void onConectionStateChange(connectionStateEnum theconnectionStateEnum);
 	public abstract void onSerialReceived(String theString);
 	public abstract void onSerialReceived2(String theString);
+	/*
 	public void serialSend(String theString){
 		if (mConnectionState == connectionStateEnum.isConnected) {
 			mSCharacteristic.setValue(theString);
 			mBluetoothLeService.writeCharacteristic(mSCharacteristic);
 		}
 	}
+	*/
 	
 	private int mBaudrate=115200;	//set the default baud rate to 115200//藍芽連結率設定//與硬體設備鮑褒率相同
-	private String mPassword="AT+PASSWOR=DFRobot\r\n";
 
 	private String mBaudrateBuffer = "AT+CURRUART="+mBaudrate+"\r\n";
 
@@ -255,6 +256,43 @@ public abstract  class BlunoLibrary  extends Activity{
     	
     	
     }
+
+    void buttonScanOnClickProcess2()
+	{
+		switch (mConnectionState) {
+			case isNull:
+				mConnectionState=connectionStateEnum.isScanning;
+				onConectionStateChange(mConnectionState);
+				scanLeDevice(true);
+				break;
+			case isToScan:
+				mConnectionState=connectionStateEnum.isScanning;
+				onConectionStateChange(mConnectionState);
+				scanLeDevice(true);
+				break;
+			case isScanning:
+
+				break;
+
+			case isConnecting:
+
+				break;
+			case isConnected:
+				mBluetoothLeService.disconnect();
+				mHandler.postDelayed(mDisonnectingOverTimeRunnable, 10000);
+				mConnectionState=connectionStateEnum.isDisconnecting;
+				onConectionStateChange(mConnectionState);
+				break;
+			case isDisconnecting:
+
+				break;
+
+			default:
+				break;
+		}
+
+
+	}
     
 	void scanLeDevice(final boolean enable) {
 		if (enable) {
@@ -384,7 +422,6 @@ public abstract  class BlunoLibrary  extends Activity{
         else {
         	mSCharacteristic=mSerialPortCharacteristic;
         	mBluetoothLeService.setCharacteristicNotification(mSCharacteristic, true);
-        	mBluetoothLeService.readCharacteristic(mSCharacteristic);
 		}
 
     }
