@@ -81,8 +81,8 @@ public abstract  class BlunoLibrary  extends Activity{
 		@Override
 		public void run() {
 			if(mConnectionState2==connectionStateEnum.isConnecting)
-				mConnectionState2=connectionStateEnum.isToScan;
-			onConectionStateChange(mConnectionState2);
+			mConnectionState2=connectionStateEnum.isToScan;
+			onConectionStateChange2(mConnectionState2);
 			mBluetoothLeService2.close();
 		}};
 		
@@ -101,8 +101,8 @@ public abstract  class BlunoLibrary  extends Activity{
 		@Override
 		public void run() {
 			if(mConnectionState2==connectionStateEnum.isDisconnecting)
-				mConnectionState2=connectionStateEnum.isToScan;
-			onConectionStateChange(mConnectionState2);
+			mConnectionState2=connectionStateEnum.isToScan;
+			onConectionStateChange2(mConnectionState2);
 			mBluetoothLeService2.close();
 		}};
     
@@ -508,7 +508,7 @@ public abstract  class BlunoLibrary  extends Activity{
 						Log.d(TAG, "Connect request success");
 						mConnectionState2 = connectionStateEnum.isConnecting;
 						onConectionStateChange2(mConnectionState2);
-						mHandler.postDelayed(mConnectingOverTimeRunnable, 10000);
+						mHandler2.postDelayed(mConnectingOverTimeRunnable2, 10000);
 					} else {
 						Log.d(TAG, "Connect request fail");
 						mConnectionState2 = connectionStateEnum.isToScan;
