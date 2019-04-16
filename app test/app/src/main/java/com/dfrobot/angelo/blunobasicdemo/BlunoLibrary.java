@@ -82,8 +82,14 @@ public abstract  class BlunoLibrary  extends Activity{
 			mConnectionState=connectionStateEnum.isToScan;
 			onConectionStateChange(mConnectionState);
 			mBluetoothLeService.close();
+		}};
+
+	private Runnable mConnectingOverTimeRunnable2=new Runnable(){
+
+		@Override
+		public void run() {
 			if(mConnectionState2==connectionStateEnum.isConnecting)
-			mConnectionState2=connectionStateEnum.isToScan;
+				mConnectionState2=connectionStateEnum.isToScan;
 			onConectionStateChange(mConnectionState2);
 			mBluetoothLeService2.close();
 		}};
@@ -96,8 +102,14 @@ public abstract  class BlunoLibrary  extends Activity{
 			mConnectionState=connectionStateEnum.isToScan;
 			onConectionStateChange(mConnectionState);
 			mBluetoothLeService.close();
+		}};
+
+	private Runnable mDisonnectingOverTimeRunnable2=new Runnable(){
+
+		@Override
+		public void run() {
 			if(mConnectionState2==connectionStateEnum.isDisconnecting)
-			mConnectionState2=connectionStateEnum.isToScan;
+				mConnectionState2=connectionStateEnum.isToScan;
 			onConectionStateChange(mConnectionState2);
 			mBluetoothLeService2.close();
 		}};
@@ -154,7 +166,7 @@ public abstract  class BlunoLibrary  extends Activity{
 		if(mBluetoothLeService2!=null)
 		{
 			mBluetoothLeService2.disconnect();
-			mHandler2.postDelayed(mDisonnectingOverTimeRunnable, 10000);
+			mHandler2.postDelayed(mDisonnectingOverTimeRunnable2, 10000);
 		}
 		mSCharacteristic=null;
 		mSCharacteristic2=null;
@@ -170,7 +182,7 @@ public abstract  class BlunoLibrary  extends Activity{
 		}
 		if(mBluetoothLeService2!=null)
 		{
-			mHandler2.removeCallbacks(mDisonnectingOverTimeRunnable);
+			mHandler2.removeCallbacks(mDisonnectingOverTimeRunnable2);
 			mBluetoothLeService2.close();
 		}
 		mSCharacteristic=null;
@@ -238,13 +250,13 @@ public abstract  class BlunoLibrary  extends Activity{
 
 			if (BluetoothLeService.ACTION_GATT_CONNECTED2.equals(action)) {
 				mConnected = true;
-				mHandler2.removeCallbacks(mConnectingOverTimeRunnable);
+				mHandler2.removeCallbacks(mConnectingOverTimeRunnable2);
 
 			} else if (BluetoothLeService.ACTION_GATT_DISCONNECTED2.equals(action)) {
 				mConnected = false;
 				mConnectionState2 = connectionStateEnum.isToScan;
 				onConectionStateChange2(mConnectionState2);
-				mHandler2.removeCallbacks(mDisonnectingOverTimeRunnable);
+				mHandler2.removeCallbacks(mDisonnectingOverTimeRunnable2);
 				mBluetoothLeService2.close();
 			} else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED2.equals(action)) {
 				getGattServices2(mBluetoothLeService2.getSupportedGattServices());
@@ -324,7 +336,7 @@ public abstract  class BlunoLibrary  extends Activity{
 				break;
 			case isConnected:
 				mBluetoothLeService2.disconnect();
-				mHandler2.postDelayed(mDisonnectingOverTimeRunnable, 10000);
+				mHandler2.postDelayed(mDisonnectingOverTimeRunnable2, 10000);
 				mConnectionState2=connectionStateEnum.isDisconnecting;
 				onConectionStateChange2(mConnectionState2);
 				break;
