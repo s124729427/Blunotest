@@ -133,7 +133,6 @@ public abstract  class BlunoLibrary  extends Activity{
 			}
 		}
 	    mainContext.registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
-		mainContext.registerReceiver(mGattUpdateReceiver2, makeGattUpdateIntentFilter2());
 	}
     
 
@@ -142,7 +141,6 @@ public abstract  class BlunoLibrary  extends Activity{
 		scanLeDevice(false);
 		scanLeDevice2(false);
 		mainContext.unregisterReceiver(mGattUpdateReceiver);
-		mainContext.unregisterReceiver(mGattUpdateReceiver2);
 		//mLeDeviceListAdapter.clear();
     	mConnectionState=connectionStateEnum.isToScan;
 		onConectionStateChange(mConnectionState);
@@ -237,14 +235,7 @@ public abstract  class BlunoLibrary  extends Activity{
                // mBluetoothLeService.setCharacteristicNotification(mSCharacteristic, true);
                // mBluetoothLeService.readCharacteristic(mSCharacteristic);
             }
-        }
-    };
 
-	private final BroadcastReceiver mGattUpdateReceiver2 = new BroadcastReceiver() {
-		@SuppressLint("DefaultLocale")
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			final String action = intent.getAction();
 			if (BluetoothLeService.ACTION_GATT_CONNECTED2.equals(action)) {
 				mConnected = true;
 				mHandler2.removeCallbacks(mConnectingOverTimeRunnable);
@@ -270,8 +261,9 @@ public abstract  class BlunoLibrary  extends Activity{
 				// mBluetoothLeService.setCharacteristicNotification(mSCharacteristic, true);
 				// mBluetoothLeService.readCharacteristic(mSCharacteristic);
 			}
-		}
-	};
+        }
+    };
+
 	
     void buttonScanOnClickProcess()
     {
@@ -350,12 +342,18 @@ public abstract  class BlunoLibrary  extends Activity{
 	void scanLeDevice(final boolean enable) {
 		if (enable) {
 			System.out.println("mBluetoothAdapter.startLeScan");
-			if(!mScanning)
-			{
-				if(address1blooean == true) {
-					mScanning = true;
-					mBluetoothAdapter.startLeScan(mLeScanCallback);
+			try {
+				Thread.sleep(250);
+				if(!mScanning)
+				{
+					if(address1blooean == true) {
+						mScanning = true;
+						mBluetoothAdapter.startLeScan(mLeScanCallback);
+					}
 				}
+			} catch (InterruptedException e) {
+
+				e.printStackTrace();
 			}
 		} else {
 			if(mScanning)
@@ -369,12 +367,18 @@ public abstract  class BlunoLibrary  extends Activity{
 	void scanLeDevice2(final boolean enable) {
 		if (enable) {
 			System.out.println("mBluetoothAdapter.startLeScan");
-			 if(!mScanning2)
-			{
-				if(address2blooean == true){
-					mScanning2 = true;
-					mBluetoothAdapter.startLeScan(mLeScanCallback2);
+			try {
+				Thread.sleep(250);
+				 if(!mScanning2)
+				{
+					if(address2blooean == true){
+						mScanning2 = true;
+						mBluetoothAdapter.startLeScan(mLeScanCallback2);
+					}
 				}
+			} catch (InterruptedException e) {
+
+				e.printStackTrace();
 			}
 		} else {
 			 if(mScanning2)
@@ -475,6 +479,13 @@ public abstract  class BlunoLibrary  extends Activity{
 						onConectionStateChange(mConnectionState);
 					}
 					break;
+				}else {
+					try {
+						Thread.sleep(250);
+
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}
@@ -504,6 +515,13 @@ public abstract  class BlunoLibrary  extends Activity{
 						onConectionStateChange2(mConnectionState2);
 					}
 					break;
+				}else {
+					try {
+						Thread.sleep(250);
+
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}
@@ -591,15 +609,11 @@ public abstract  class BlunoLibrary  extends Activity{
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
         intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
-        return intentFilter;
-    }
-	private static IntentFilter makeGattUpdateIntentFilter2() {
-		final IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED2);
 		intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED2);
 		intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED2);
 		intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE2);
-		return intentFilter;
-	}
+        return intentFilter;
+    }
 
 }
