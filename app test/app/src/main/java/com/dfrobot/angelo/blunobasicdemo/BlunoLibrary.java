@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -16,17 +15,12 @@ import android.bluetooth.BluetoothManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.TextView;
+
 import android.widget.Toast;
 
 public abstract  class BlunoLibrary  extends Activity{
@@ -69,8 +63,6 @@ public abstract  class BlunoLibrary  extends Activity{
 
 	private Handler mHandler= new Handler();
 	private Handler mHandler2= new Handler();
-	
-	public boolean mConnected = false;
 
     private final static String TAG = BlunoLibrary.class.getSimpleName();
 
@@ -223,11 +215,9 @@ public abstract  class BlunoLibrary  extends Activity{
         public void onReceive(Context context, Intent intent) {
         	final String action = intent.getAction();
             if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
-                mConnected = true;
             	mHandler.removeCallbacks(mConnectingOverTimeRunnable);
 
             } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
-                mConnected = false;
                 mConnectionState = connectionStateEnum.isToScan;
                 onConectionStateChange(mConnectionState);
             	mHandler.removeCallbacks(mDisonnectingOverTimeRunnable);
@@ -249,17 +239,15 @@ public abstract  class BlunoLibrary  extends Activity{
             }
 
 			if (BluetoothLeService.ACTION_GATT_CONNECTED2.equals(action)) {
-				mConnected = true;
 				mHandler2.removeCallbacks(mConnectingOverTimeRunnable2);
 
 			} else if (BluetoothLeService.ACTION_GATT_DISCONNECTED2.equals(action)) {
-				mConnected = false;
 				mConnectionState2 = connectionStateEnum.isToScan;
 				onConectionStateChange2(mConnectionState2);
 				mHandler2.removeCallbacks(mDisonnectingOverTimeRunnable2);
 				mBluetoothLeService2.close();
 			} else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED2.equals(action)) {
-				getGattServices2(mBluetoothLeService2.getSupportedGattServices());
+				getGattServices2(mBluetoothLeService2.getSupportedGattServices2());
 			} else if (BluetoothLeService.ACTION_DATA_AVAILABLE2.equals(action)) {
 				if (mSCharacteristic2==mSerialPortCharacteristic2) {
 					mConnectionState2 = connectionStateEnum.isConnected;
@@ -267,7 +255,7 @@ public abstract  class BlunoLibrary  extends Activity{
 					String theString2 = intent.getStringExtra(BluetoothLeService.EXTRA_DATA2);
 					if(theString2 != null){
 						onSerialReceived2(theString2);
-						System.out.println("displayData "+intent.getStringExtra(BluetoothLeService.EXTRA_DATA2));
+						System.out.println("displayData2 "+intent.getStringExtra(BluetoothLeService.EXTRA_DATA2));
 					}
 				}
 				// mBluetoothLeService.setCharacteristicNotification(mSCharacteristic, true);

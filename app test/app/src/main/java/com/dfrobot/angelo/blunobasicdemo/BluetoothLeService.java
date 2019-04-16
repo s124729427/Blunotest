@@ -42,7 +42,8 @@ public class BluetoothLeService extends Service {
 
     private BluetoothManager mBluetoothManager;
     private BluetoothAdapter mBluetoothAdapter;
-    BluetoothGatt mBluetoothGatt;
+    BluetoothGatt mBluetoothGatt1;
+    BluetoothGatt mBluetoothGatt2;
     private int currentDevice = 0;
     private int connectionQueueQuantity = 0;
     public String mBluetoothDeviceAddress;
@@ -95,7 +96,7 @@ public class BluetoothLeService extends Service {
                 broadcastUpdate(intentAction);
                 Log.i(TAG, "Connected to GATT server.");
                 // Attempts to discover services after successful connection.
-                if(mBluetoothGatt.discoverServices())
+                if(mBluetoothGatt1.discoverServices())
                 {
                     Log.i(TAG, "Attempting to start service discovery:");
                 }
@@ -164,7 +165,7 @@ public class BluetoothLeService extends Service {
                 broadcastUpdate(intentAction);
                 Log.i(TAG, "Connected to GATT server.");
                 // Attempts to discover services after successful connection.
-                if(mBluetoothGatt.discoverServices())
+                if(mBluetoothGatt2.discoverServices())
                 {
                     Log.i(TAG, "Attempting to start service discovery:");
                 }
@@ -280,8 +281,6 @@ public class BluetoothLeService extends Service {
     }
 
     public boolean connect(final String address) {
-        //拿到ADDRESS做事
-    	System.out.println("BluetoothLeService connect"+address+mBluetoothGatt);
         if (mBluetoothAdapter == null || address == null) {
             Log.w(TAG, "BluetoothAdapter not initialized or unspecified address.");
             return false;
@@ -296,17 +295,17 @@ public class BluetoothLeService extends Service {
 		synchronized(this)
 		{
             if(connectionQueueQuantity < 2 && address.equals(address1)) {
-                mBluetoothGatt = device.connectGatt(this, false, mGattCallback);
-                if (checkGatt(mBluetoothGatt)) {
-                    connectionQueue.add(mBluetoothGatt);
+                mBluetoothGatt1 = device.connectGatt(this, false, mGattCallback);
+                if (checkGatt(mBluetoothGatt1)) {
+                    connectionQueue.add(mBluetoothGatt1);
                     connectionQueueQuantity++;
                     mBluetoothDeviceAddress = address;
                     mConnectionState = STATE_CONNECTING;
                 }
             }else if(connectionQueueQuantity < 2 && address.equals(address2)){
-                mBluetoothGatt = device.connectGatt(this, false, mGattCallback2);
-                if (checkGatt(mBluetoothGatt)) {
-                    connectionQueue.add(mBluetoothGatt);
+                mBluetoothGatt2 = device.connectGatt(this, false, mGattCallback2);
+                if (checkGatt(mBluetoothGatt2)) {
+                    connectionQueue.add(mBluetoothGatt2);
                     connectionQueueQuantity++;
                     mBluetoothDeviceAddress2 = address;
                     mConnectionState2 = STATE_CONNECTING;
@@ -319,8 +318,8 @@ public class BluetoothLeService extends Service {
 
     private boolean checkGatt(BluetoothGatt bluetoothGatt) {
         if (!connectionQueue.isEmpty()) {
-            for(BluetoothGatt btg:connectionQueue){
-                if(btg.equals(bluetoothGatt)){
+            for(BluetoothGatt mBluetoothGatt:connectionQueue){
+                if(mBluetoothGatt.equals(bluetoothGatt)){
                     return false;
                 }
             }
@@ -368,8 +367,12 @@ public class BluetoothLeService extends Service {
     }
 
     public List<BluetoothGattService> getSupportedGattServices() {
-        if (mBluetoothGatt == null) return null;
-        return mBluetoothGatt.getServices();
+        if (mBluetoothGatt1 == null) return null;
+        return mBluetoothGatt1.getServices();
+    }
+    public List<BluetoothGattService> getSupportedGattServices2() {
+        if (mBluetoothGatt2 == null) return null;
+        return mBluetoothGatt2.getServices();
     }
 
 }
