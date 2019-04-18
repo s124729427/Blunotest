@@ -66,6 +66,12 @@ public abstract  class BlunoLibrary  extends Activity{
 
     private final static String TAG = BlunoLibrary.class.getSimpleName();
 
+	public static final String SerialPortUUID="0000dfb1-0000-1000-8000-00805f9b34fb";
+	public static final String address1="A4:D5:78:0D:93:33";
+	public static final String address2="A4:D5:78:0D:01:D4";
+	private boolean address1blooean = true;
+	private boolean address2blooean = true;
+
     private Runnable mConnectingOverTimeRunnable=new Runnable(){
 
 		@Override
@@ -93,6 +99,8 @@ public abstract  class BlunoLibrary  extends Activity{
         	if(mConnectionState==connectionStateEnum.isDisconnecting)
 			mConnectionState=connectionStateEnum.isToScan;
 			onConectionStateChange(mConnectionState);
+			address1blooean = true;
+			address2blooean = true;
 			mBluetoothLeService.close();
 		}};
 
@@ -103,14 +111,11 @@ public abstract  class BlunoLibrary  extends Activity{
 			if(mConnectionState2==connectionStateEnum.isDisconnecting)
 			mConnectionState2=connectionStateEnum.isToScan;
 			onConectionStateChange2(mConnectionState2);
+			address1blooean = true;
+			address2blooean = true;
 			mBluetoothLeService2.close();
 		}};
-    
-	public static final String SerialPortUUID="0000dfb1-0000-1000-8000-00805f9b34fb";
-	public static final String address1="A4:D5:78:0D:93:33";
-	public static final String address2="A4:D5:78:0D:01:D4";
-	private boolean address1blooean = true;
-	private boolean address2blooean = true;
+
 	
     public void onCreateProcess()
     {
@@ -234,8 +239,6 @@ public abstract  class BlunoLibrary  extends Activity{
 						System.out.println("displayData "+intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
 					}
 				}
-               // mBluetoothLeService.setCharacteristicNotification(mSCharacteristic, true);
-               // mBluetoothLeService.readCharacteristic(mSCharacteristic);
             }
 
 			if (BluetoothLeService.ACTION_GATT_CONNECTED2.equals(action)) {
@@ -258,8 +261,6 @@ public abstract  class BlunoLibrary  extends Activity{
 						System.out.println("displayData2 "+intent.getStringExtra(BluetoothLeService.EXTRA_DATA2));
 					}
 				}
-				// mBluetoothLeService.setCharacteristicNotification(mSCharacteristic, true);
-				// mBluetoothLeService.readCharacteristic(mSCharacteristic);
 			}
         }
     };
@@ -290,6 +291,8 @@ public abstract  class BlunoLibrary  extends Activity{
             mHandler.postDelayed(mDisonnectingOverTimeRunnable, 10000);
 			mConnectionState=connectionStateEnum.isDisconnecting;
 			onConectionStateChange(mConnectionState);
+			address1blooean = true;
+			address2blooean = true;
 			break;
 		case isDisconnecting:
 			
@@ -327,6 +330,8 @@ public abstract  class BlunoLibrary  extends Activity{
 				mHandler2.postDelayed(mDisonnectingOverTimeRunnable2, 10000);
 				mConnectionState2=connectionStateEnum.isDisconnecting;
 				onConectionStateChange2(mConnectionState2);
+				address1blooean = true;
+				address2blooean = true;
 				break;
 			case isDisconnecting:
 
@@ -457,8 +462,9 @@ public abstract  class BlunoLibrary  extends Activity{
 
 	private void connectBle(BluetoothDevice device) {
 		while (true) {
-			if (device == null)
+			if (device == null) {
 				return;
+			}
 			scanLeDevice(false);
 
 			if (device.getName() == null || device.getAddress() == null) {
@@ -493,8 +499,9 @@ public abstract  class BlunoLibrary  extends Activity{
 
 	private void connectBle2(BluetoothDevice device) {
 		while (true) {
-			if (device == null)
+			if (device == null) {
 				return;
+			}
 			scanLeDevice2(false);
 
 			if (device.getName() == null || device.getAddress() == null) {

@@ -294,7 +294,7 @@ public class BluetoothLeService extends Service {
         System.out.println("device.connectGatt connect");
 		synchronized(this)
 		{
-            if(connectionQueueQuantity < 2 && address.equals(address1)) {
+            if( connectionQueueQuantity < 2 && address.equals(address1)) {
                 mBluetoothGatt1 = device.connectGatt(this, false, mGattCallback);
                 if (checkGatt(mBluetoothGatt1)) {
                     connectionQueue.add(mBluetoothGatt1);
@@ -302,7 +302,7 @@ public class BluetoothLeService extends Service {
                     mBluetoothDeviceAddress = address;
                     mConnectionState = STATE_CONNECTING;
                 }
-            }else if(connectionQueueQuantity < 2 && address.equals(address2)){
+            }else if( connectionQueueQuantity < 2 && address.equals(address2)){
                 mBluetoothGatt2 = device.connectGatt(this, false, mGattCallback2);
                 if (checkGatt(mBluetoothGatt2)) {
                     connectionQueue.add(mBluetoothGatt2);
@@ -347,6 +347,9 @@ public class BluetoothLeService extends Service {
             mBluetoothGatt.close();
             mBluetoothGatt = null;
         }
+        connectionQueue.remove(mBluetoothGatt1);
+        connectionQueue.remove(mBluetoothGatt2);
+        connectionQueueQuantity = 0;
     }
     //获得属性后需要进行判断设备是否支持notify操作，然后再设备打开notify通知
     public void setCharacteristicNotification(BluetoothGattCharacteristic characteristic,

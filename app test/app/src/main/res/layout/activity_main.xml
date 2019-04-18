@@ -1,55 +1,50 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:id="@+id/relativeLayout">
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity">
 
 
     <TextView
         android:id="@+id/testtest2"
-        android:layout_width="188dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="432dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="260dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/buttonScan"
-        android:layout_width="333dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="8dp"
-        android:text="掃描藍牙"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.53"
+        android:layout_width="256dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="連結1號藍牙裝置"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <Button
         android:id="@+id/buttonScan2"
-        android:layout_width="333dp"
+        android:layout_width="216dp"
         android:layout_height="36dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="368dp"
-        android:layout_marginEnd="8dp"
-        android:text="掃描藍牙"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.515"
+        android:layout_marginTop="276dp"
+        android:text="連結2號藍牙裝置"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/testtest"
-        android:layout_width="188dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,23 +54,45 @@
         android:id="@+id/P1"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:text="P1"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonScan" />
 
     <TextView
+        android:id="@+id/p9"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:text="P9"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonScan2" />
+
+    <TextView
         android:id="@+id/text1"
         android:layout_width="80dp"
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
-        android:layout_marginBottom="568dp"
-        android:text="TextView"
 
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/P1" />
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/P1"
+        app:layout_constraintTop_toBottomOf="@+id/buttonScan" />
+
+    <TextView
+        android:id="@+id/text9"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="32dp"
+
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/p9"
+        app:layout_constraintTop_toBottomOf="@+id/buttonScan2" />
 
     <TextView
         android:id="@+id/P2"
@@ -89,29 +106,59 @@
         app:layout_constraintTop_toBottomOf="@+id/P1" />
 
     <TextView
+        android:id="@+id/p10"
+        android:layout_width="45dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="P10"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/p9" />
+
+    <TextView
         android:id="@+id/text2"
         android:layout_width="80dp"
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="588dp"
 
+        android:layout_marginTop="8dp"
         android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/P2"
-        app:layout_constraintTop_toBottomOf="@+id/text1"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/text1" />
+
+    <TextView
+        android:id="@+id/text10"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/p10"
+        app:layout_constraintTop_toBottomOf="@+id/text9" />
 
     <TextView
         android:id="@+id/P3"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:text="P3"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/P2" />
+
+    <TextView
+        android:id="@+id/p11"
+        android:layout_width="50dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:text="P11"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/p10" />
 
     <TextView
         android:id="@+id/text3"
@@ -119,24 +166,43 @@
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="544dp"
 
         android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/P3"
-        app:layout_constraintTop_toBottomOf="@+id/text2"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/text2" />
+
+    <TextView
+        android:id="@+id/text11"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/p11"
+        app:layout_constraintTop_toBottomOf="@+id/text10" />
 
     <TextView
         android:id="@+id/P4"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:text="P4"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/P3" />
+
+    <TextView
+        android:id="@+id/p12"
+        android:layout_width="45dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:text="P12"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/p11" />
 
     <TextView
         android:id="@+id/text4"
@@ -145,140 +211,226 @@
 
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="504dp"
 
         android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/P4"
-        app:layout_constraintTop_toBottomOf="@+id/text3"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/text3" />
+
+    <TextView
+        android:id="@+id/text12"
+        android:layout_width="80dp"
+        android:layout_height="23dp"
+
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/p12"
+        app:layout_constraintTop_toBottomOf="@+id/text11" />
 
     <TextView
         android:id="@+id/P5"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
         android:text="P5"
         android:textSize="24sp"
         app:layout_constraintStart_toEndOf="@+id/text1"
         app:layout_constraintTop_toBottomOf="@+id/buttonScan" />
 
     <TextView
+        android:id="@+id/p13"
+        android:layout_width="52dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
+        android:text="P13"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@+id/text9"
+        app:layout_constraintTop_toBottomOf="@+id/buttonScan2" />
+
+    <TextView
         android:id="@+id/text5"
         android:layout_width="80dp"
         android:layout_height="30dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="560dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
 
-        app:layout_constraintStart_toEndOf="@+id/P5" />
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/P5"
+        app:layout_constraintTop_toBottomOf="@+id/buttonScan" />
+
+    <TextView
+        android:id="@+id/text13"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/p13"
+        app:layout_constraintTop_toBottomOf="@+id/buttonScan2" />
 
     <TextView
         android:id="@+id/P6"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="8dp"
         android:text="P6"
         android:textSize="24sp"
         app:layout_constraintStart_toEndOf="@+id/text2"
         app:layout_constraintTop_toBottomOf="@+id/P5" />
 
     <TextView
+        android:id="@+id/p14"
+        android:layout_width="51dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="4dp"
+        android:text="P14"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@+id/text10"
+        app:layout_constraintTop_toBottomOf="@+id/p13" />
+
+    <TextView
         android:id="@+id/text6"
         android:layout_width="80dp"
         android:layout_height="30dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="584dp"
-        android:text="TextView"
 
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/P6"
-        app:layout_constraintTop_toBottomOf="@+id/text5"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/text5" />
+
+    <TextView
+        android:id="@+id/text14"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/p14"
+        app:layout_constraintTop_toBottomOf="@+id/text13" />
 
     <TextView
         android:id="@+id/P7"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="8dp"
         android:text="P7"
         android:textSize="24sp"
         app:layout_constraintStart_toEndOf="@+id/text3"
         app:layout_constraintTop_toBottomOf="@+id/P6" />
 
     <TextView
+        android:id="@+id/p15"
+        android:layout_width="55dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:text="P15"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@+id/text11"
+        app:layout_constraintTop_toBottomOf="@+id/p14" />
+
+    <TextView
         android:id="@+id/text7"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/P7"
+        app:layout_constraintTop_toBottomOf="@+id/text6" />
+
+    <TextView
+        android:id="@+id/text15"
         android:layout_width="80dp"
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="532dp"
         android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/P7"
-        app:layout_constraintTop_toBottomOf="@+id/text6"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toEndOf="@+id/p15"
+        app:layout_constraintTop_toBottomOf="@+id/text14" />
 
     <TextView
         android:id="@+id/P8"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="12dp"
         android:text="P8"
         android:textSize="24sp"
         app:layout_constraintStart_toEndOf="@+id/text4"
         app:layout_constraintTop_toBottomOf="@+id/P7" />
 
     <TextView
+        android:id="@+id/p16"
+        android:layout_width="48dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="4dp"
+        android:text="P16"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@+id/text12"
+        app:layout_constraintTop_toBottomOf="@+id/p15" />
+
+    <TextView
         android:id="@+id/text8"
         android:layout_width="80dp"
         android:layout_height="30dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="492dp"
-        android:text="TextView"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="12dp"
 
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/P8"
-        app:layout_constraintTop_toBottomOf="@+id/text7"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/text7" />
+
+    <TextView
+        android:id="@+id/text16"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/p16"
+        app:layout_constraintTop_toBottomOf="@+id/text15" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="80dp"
         android:layout_height="40dp"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:text="輸入"
         app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/buttonScan" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="80dp"
         android:layout_height="30dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/buttonScan" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:text="請輸入閥值比例"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonScan" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView4"
@@ -287,9 +439,33 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="本設備為研究論文所用。指導教授:段裘慶教授, 學生:莊執中。 @台北科技大學網路應用實驗室"
+        android:text="本設備為研究論文所用。指導教授:段裘慶教授, 學生:莊執中。 @國立台北科技大學網路應用實驗室"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/texttotal1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buttonScan"
+        app:layout_constraintTop_toBottomOf="@+id/button" />
+
+    <TextView
+        android:id="@+id/texttotal2"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="292dp"
+        android:layout_marginEnd="32dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.473"
+        app:layout_constraintStart_toEndOf="@+id/buttonScan2"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

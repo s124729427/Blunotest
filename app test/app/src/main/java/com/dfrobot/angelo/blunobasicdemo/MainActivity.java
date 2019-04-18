@@ -19,7 +19,14 @@ public class MainActivity  extends BlunoLibrary {
 	private Button buttonScan2;
 
 	private TextView test, text1, text2, text3, text4, text5, text6, text7, text8;
-	private TextView test2;
+	private TextView test2, text9, text10, text11, text12, text13, text14, text15, text16;
+	private TextView texttotal1, texttotal2;
+	private int time = 0;
+	private int time2 = 0;
+	private float total1 = 1;
+	private float total2 = 1;
+	private float total1total2 = 1;
+
 
 
 	@Override
@@ -27,7 +34,7 @@ public class MainActivity  extends BlunoLibrary {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		onCreateProcess();
-		//onCreate Process by BlunoLibrary
+
 
 		test = (TextView) findViewById(R.id.testtest);
 		text1 = (TextView) findViewById(R.id.text1);
@@ -40,34 +47,40 @@ public class MainActivity  extends BlunoLibrary {
 		text8 = (TextView) findViewById(R.id.text8);
 
 		test2 = (TextView) findViewById(R.id.testtest2);
+		text9 = (TextView) findViewById(R.id.text9);
+		text10 = (TextView) findViewById(R.id.text10);
+		text11 = (TextView) findViewById(R.id.text11);
+		text12 = (TextView) findViewById(R.id.text12);
+		text13 = (TextView) findViewById(R.id.text13);
+		text14 = (TextView) findViewById(R.id.text14);
+		text15 = (TextView) findViewById(R.id.text15);
+		text16 = (TextView) findViewById(R.id.text16);
 
-		serialBegin(115200);    //set the default baud rate to 115200//藍芽連結率設定//與硬體設備鮑褒率相同                                                //set the Uart Baudrate on BLE chip to 115200
+		texttotal1 = (TextView) findViewById(R.id.texttotal1);
+		texttotal2 = (TextView) findViewById(R.id.texttotal2);
+
+		serialBegin(115200);
 
 
-		//initial the EditText of the sending data
-
-		//initial the button for sending the data
-
-
-		buttonScan = (Button) findViewById(R.id.buttonScan);                    //initial the button for scanning the BLE device
+		buttonScan = (Button) findViewById(R.id.buttonScan);
 		buttonScan.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 
-				buttonScanOnClickProcess();                                        //Alert Dialog for selecting the BLE device
+				buttonScanOnClickProcess();
 			}
 		});
 
-		buttonScan2 = (Button) findViewById(R.id.buttonScan2);                    //initial the button for scanning the BLE device
+		buttonScan2 = (Button) findViewById(R.id.buttonScan2);
 		buttonScan2.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 
-				buttonScanOnClickProcess2();                                        //Alert Dialog for selecting the BLE device
+				buttonScanOnClickProcess2();
 			}
 		});
 	}
@@ -75,58 +88,58 @@ public class MainActivity  extends BlunoLibrary {
 	protected void onResume() {
 		super.onResume();
 		System.out.println("BlUNOActivity onResume");
-		onResumeProcess();                                                        //onResume Process by BlunoLibrary
+		onResumeProcess();
 	}
 
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		onActivityResultProcess(requestCode, resultCode, data);                    //onActivityResult Process by BlunoLibrary
+		onActivityResultProcess(requestCode, resultCode, data);
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		onPauseProcess();                                                        //onPause Process by BlunoLibrary
+		onPauseProcess();
 	}
 
 	protected void onStop() {
 		super.onStop();
-		onStopProcess();                                                        //onStop Process by BlunoLibrary
+		onStopProcess();
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		onDestroyProcess();                                                        //onDestroy Process by BlunoLibrary
+		onDestroyProcess();
 	}
 
 	@Override
-	public void onConectionStateChange(connectionStateEnum theConnectionState) {//Once connection state changes, this function will be called
-		switch (theConnectionState) {                                            //Four connection state
+	public void onConectionStateChange(connectionStateEnum theConnectionState) {
+		switch (theConnectionState) {
 			case isConnected:
-				buttonScan.setText("Connected");
+				buttonScan.setText("1號藍牙裝置已連線");
 				break;
 			case isConnecting:
-				buttonScan.setText("Connecting");
+				buttonScan.setText("正在連結中");
 				break;
 			case isToScan:
-				buttonScan.setText("Scan");
+				buttonScan.setText("連結1號藍牙裝置");
 				break;
 			case isScanning:
 				buttonScan.setText("Scanning");
 				break;
 			case isDisconnecting:
-				buttonScan.setText("isDisconnecting");
+				buttonScan.setText("連結已斷開");
 				break;
 			default:
 				break;
 		}
 	}
 
-	public void onConectionStateChange2(connectionStateEnum theConnectionState) {//Once connection state changes, this function will be called
-		switch (theConnectionState) {                                            //Four connection state
+	public void onConectionStateChange2(connectionStateEnum theConnectionState) {
+		switch (theConnectionState) {
 			case isConnected:
 				buttonScan2.setText("Connected");
 				break;
@@ -148,28 +161,49 @@ public class MainActivity  extends BlunoLibrary {
 	}
 
 	@Override
-	public void onSerialReceived(String theString){                            //Once connection data received, this function will be called
+	public void onSerialReceived(String theString){
 		// TODO Auto-generated method stub
-		test.append(theString);                            //append the text into the EditText
+		test.append(theString);
 		String[] token = test.getText().toString().split(",");
-		//for(int i = 0 ; i < token.length ; i=i+6){
 		if(token.length%8 == 0) {
-			for (int i = 0; i < token.length; i = i + 8) {
-				text1.setText(token[i]);
-				text2.setText(token[i + 1]);
-				text3.setText(token[i + 2]);
-				text4.setText(token[i + 3]);
-				text5.setText(token[i + 4]);
-				text6.setText(token[i + 5]);
-				text7.setText(token[i + 6]);
-				text8.setText(token[i + 7]);
+			if(time < token.length) {
+				text1.setText(String .format("%.3f", Float.parseFloat(token[time])/total1total2));
+				text2.setText(String .format("%.3f", Float.parseFloat(token[time+ 1])/total1total2));
+				text3.setText(String .format("%.3f", Float.parseFloat(token[time+ 2])/total1total2));
+				text4.setText(String .format("%.3f", Float.parseFloat(token[time+ 3])/total1total2));
+				text5.setText(String .format("%.3f", Float.parseFloat(token[time+ 4])/total1total2));
+				text6.setText(String .format("%.3f", Float.parseFloat(token[time+ 5])/total1total2));
+				text7.setText(String .format("%.3f", Float.parseFloat(token[time+ 6])/total1total2));
+				text8.setText(String .format("%.3f", Float.parseFloat(token[time+ 7])/total1total2));
+				total1= Integer.parseInt(token[time])+Integer.parseInt(token[time+ 1])+Integer.parseInt(token[time+ 2])+Integer.parseInt(token[time+ 3])+
+						Integer.parseInt(token[time+ 4])+Integer.parseInt(token[time+ 5])+Integer.parseInt(token[time+ 6])+Integer.parseInt(token[time+ 7]);
+				total1total2 = total1+total2;
+				texttotal1.setText(String .format("%.3f", total1/total1total2));
+				time = time+8;
 			}
 		}
 	}
-	public void onSerialReceived2(String theString){                            //Once connection data received, this function will be called
+	public void onSerialReceived2(String theString){
 		// TODO Auto-generated method stub
-		test2.append(theString);                            //append the text into the EditText
-
+		test2.append(theString);
+		String[] token2 = test2.getText().toString().split(",");
+		if(token2.length%8 == 0) {
+			if(time2 < token2.length) {
+				text9.setText(String .format("%.3f", Float.parseFloat(token2[time2])/total1total2));
+				text10.setText(String .format("%.3f", Float.parseFloat(token2[time2 + 1])/total1total2));
+				text11.setText(String .format("%.3f", Float.parseFloat(token2[time2 + 2])/total1total2));
+				text12.setText(String .format("%.3f", Float.parseFloat(token2[time2 + 3])/total1total2));
+				text13.setText(String .format("%.3f", Float.parseFloat(token2[time2 + 4])/total1total2));
+				text14.setText(String .format("%.3f", Float.parseFloat(token2[time2 + 5])/total1total2));
+				text15.setText(String .format("%.3f", Float.parseFloat(token2[time2 + 6])/total1total2));
+				text16.setText(String .format("%.3f", Float.parseFloat(token2[time2 + 7])/total1total2));
+				total2= Integer.parseInt(token2[time2])+Integer.parseInt(token2[time2+ 1])+Integer.parseInt(token2[time2+ 2])+Integer.parseInt(token2[time2+ 3])+
+						Integer.parseInt(token2[time2+ 4])+Integer.parseInt(token2[time2+ 5])+Integer.parseInt(token2[time2+ 6])+Integer.parseInt(token2[time2+ 7]);
+				total1total2 = total1+total2;
+                texttotal2.setText(String .format("%.3f", total2/total1total2));
+				time2 = time2+8;
+			}
+		}
 	}
 }
 
