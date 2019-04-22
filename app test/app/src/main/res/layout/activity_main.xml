@@ -456,6 +456,17 @@
         app:layout_constraintTop_toBottomOf="@+id/button" />
 
     <TextView
+        android:id="@+id/texttotalfinal"
+        android:layout_width="128dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/textView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
         android:id="@+id/texttotal2"
         android:layout_width="wrap_content"
         android:layout_height="0dp"

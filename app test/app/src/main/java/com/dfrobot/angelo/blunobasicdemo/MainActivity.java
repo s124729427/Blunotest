@@ -20,12 +20,15 @@ public class MainActivity  extends BlunoLibrary {
 
 	private TextView test, text1, text2, text3, text4, text5, text6, text7, text8;
 	private TextView test2, text9, text10, text11, text12, text13, text14, text15, text16;
-	private TextView texttotal1, texttotal2;
+	private TextView texttotal1, texttotal2, texttotalfinal;
 	private int time = 0;
 	private int time2 = 0;
 	private float total1 = 1;
 	private float total2 = 1;
 	private float total1total2 = 1;
+
+	private int initial = 0;
+	private float[] texttotalfinalTOKEN ={0,0,0,0,0};
 
 
 
@@ -58,6 +61,7 @@ public class MainActivity  extends BlunoLibrary {
 
 		texttotal1 = (TextView) findViewById(R.id.texttotal1);
 		texttotal2 = (TextView) findViewById(R.id.texttotal2);
+		texttotalfinal = (TextView) findViewById(R.id.texttotalfinal);
 
 		serialBegin(115200);
 
@@ -202,6 +206,14 @@ public class MainActivity  extends BlunoLibrary {
 				total1total2 = total1+total2;
                 texttotal2.setText(String .format("%.3f", total2/total1total2));
 				time2 = time2+8;
+				if(total1 != 1 && total2 != 1 && initial<5){
+					texttotalfinalTOKEN[initial] = total1total2;
+					initial++;
+				}
+				if(initial == 5){
+					float x =( texttotalfinalTOKEN[0] + texttotalfinalTOKEN[1] + texttotalfinalTOKEN[2] + texttotalfinalTOKEN[3] + texttotalfinalTOKEN[4] )/5;
+					texttotalfinal.setText(String .format("%.3f",x));
+				}
 			}
 		}
 	}
