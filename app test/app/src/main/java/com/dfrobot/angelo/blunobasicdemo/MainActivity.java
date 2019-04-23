@@ -26,6 +26,7 @@ public class MainActivity  extends BlunoLibrary {
 	private float total1 = 1;
 	private float total2 = 1;
 	private float total1total2 = 1;
+    private float x = 0;
 
 	private int initial = 0;
 	private float[] texttotalfinalTOKEN ={0,0,0,0,0};
@@ -171,18 +172,19 @@ public class MainActivity  extends BlunoLibrary {
 		String[] token = test.getText().toString().split(",");
 		if(token.length%8 == 0) {
 			if(time < token.length) {
-				text1.setText(String .format("%.3f", Float.parseFloat(token[time])/total1total2));
-				text2.setText(String .format("%.3f", Float.parseFloat(token[time+ 1])/total1total2));
-				text3.setText(String .format("%.3f", Float.parseFloat(token[time+ 2])/total1total2));
-				text4.setText(String .format("%.3f", Float.parseFloat(token[time+ 3])/total1total2));
-				text5.setText(String .format("%.3f", Float.parseFloat(token[time+ 4])/total1total2));
-				text6.setText(String .format("%.3f", Float.parseFloat(token[time+ 5])/total1total2));
-				text7.setText(String .format("%.3f", Float.parseFloat(token[time+ 6])/total1total2));
-				text8.setText(String .format("%.3f", Float.parseFloat(token[time+ 7])/total1total2));
+			    if(x != 0) {
+                    text1.setText(String.format("%.3f", Float.parseFloat(token[time]) / x));
+                    text2.setText(String.format("%.3f", Float.parseFloat(token[time + 1]) / x));
+                    text3.setText(String.format("%.3f", Float.parseFloat(token[time + 2]) / x));
+                    text4.setText(String.format("%.3f", Float.parseFloat(token[time + 3]) / x));
+                    text5.setText(String.format("%.3f", Float.parseFloat(token[time + 4]) / x));
+                    text6.setText(String.format("%.3f", Float.parseFloat(token[time + 5]) / x));
+                    text7.setText(String.format("%.3f", Float.parseFloat(token[time + 6]) / x));
+                    text8.setText(String.format("%.3f", Float.parseFloat(token[time + 7]) / x));
+                    texttotal1.setText(String .format("%.3f", total1/x));
+                }
 				total1= Integer.parseInt(token[time])+Integer.parseInt(token[time+ 1])+Integer.parseInt(token[time+ 2])+Integer.parseInt(token[time+ 3])+
 						Integer.parseInt(token[time+ 4])+Integer.parseInt(token[time+ 5])+Integer.parseInt(token[time+ 6])+Integer.parseInt(token[time+ 7]);
-				total1total2 = total1+total2;
-				texttotal1.setText(String .format("%.3f", total1/total1total2));
 				time = time+8;
 			}
 		}
@@ -193,25 +195,27 @@ public class MainActivity  extends BlunoLibrary {
 		String[] token2 = test2.getText().toString().split(",");
 		if(token2.length%8 == 0) {
 			if(time2 < token2.length) {
-				text9.setText(String .format("%.3f", Float.parseFloat(token2[time2])/total1total2));
-				text10.setText(String .format("%.3f", Float.parseFloat(token2[time2 + 1])/total1total2));
-				text11.setText(String .format("%.3f", Float.parseFloat(token2[time2 + 2])/total1total2));
-				text12.setText(String .format("%.3f", Float.parseFloat(token2[time2 + 3])/total1total2));
-				text13.setText(String .format("%.3f", Float.parseFloat(token2[time2 + 4])/total1total2));
-				text14.setText(String .format("%.3f", Float.parseFloat(token2[time2 + 5])/total1total2));
-				text15.setText(String .format("%.3f", Float.parseFloat(token2[time2 + 6])/total1total2));
-				text16.setText(String .format("%.3f", Float.parseFloat(token2[time2 + 7])/total1total2));
+			    if(x != 0) {
+                    text9.setText(String.format("%.3f", Float.parseFloat(token2[time2]) / x));
+                    text10.setText(String.format("%.3f", Float.parseFloat(token2[time2 + 1]) / x));
+                    text11.setText(String.format("%.3f", Float.parseFloat(token2[time2 + 2]) / x));
+                    text12.setText(String.format("%.3f", Float.parseFloat(token2[time2 + 3]) / x));
+                    text13.setText(String.format("%.3f", Float.parseFloat(token2[time2 + 4]) / x));
+                    text14.setText(String.format("%.3f", Float.parseFloat(token2[time2 + 5]) / x));
+                    text15.setText(String.format("%.3f", Float.parseFloat(token2[time2 + 6]) / x));
+                    text16.setText(String.format("%.3f", Float.parseFloat(token2[time2 + 7]) / x));
+                    texttotal2.setText(String .format("%.3f", total2/x));
+                }
 				total2= Integer.parseInt(token2[time2])+Integer.parseInt(token2[time2+ 1])+Integer.parseInt(token2[time2+ 2])+Integer.parseInt(token2[time2+ 3])+
 						Integer.parseInt(token2[time2+ 4])+Integer.parseInt(token2[time2+ 5])+Integer.parseInt(token2[time2+ 6])+Integer.parseInt(token2[time2+ 7]);
 				total1total2 = total1+total2;
-                texttotal2.setText(String .format("%.3f", total2/total1total2));
 				time2 = time2+8;
 				if(total1 != 1 && total2 != 1 && initial<5){
 					texttotalfinalTOKEN[initial] = total1total2;
 					initial++;
 				}
 				if(initial == 5){
-					float x =( texttotalfinalTOKEN[0] + texttotalfinalTOKEN[1] + texttotalfinalTOKEN[2] + texttotalfinalTOKEN[3] + texttotalfinalTOKEN[4] )/5;
+					x =( texttotalfinalTOKEN[0] + texttotalfinalTOKEN[1] + texttotalfinalTOKEN[2] + texttotalfinalTOKEN[3] + texttotalfinalTOKEN[4] )/5;
 					texttotalfinal.setText(String .format("%.3f",x));
 				}
 			}
