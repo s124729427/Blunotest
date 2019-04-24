@@ -24,8 +24,8 @@
 
     <Button
         android:id="@+id/buttonScan"
-        android:layout_width="256dp"
-        android:layout_height="37dp"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="連結1號藍牙裝置"
@@ -34,11 +34,20 @@
 
     <Button
         android:id="@+id/buttonScan2"
-        android:layout_width="216dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="20dp"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="224dp"
         android:text="連結2號藍牙裝置"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonScan3"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="432dp"
+        android:text="顯示所有紀錄"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -54,8 +63,7 @@
         android:id="@+id/P1"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="P1"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +73,6 @@
         android:id="@+id/p9"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
         android:text="P9"
         android:textSize="24sp"
@@ -74,7 +81,7 @@
 
     <TextView
         android:id="@+id/text1"
-        android:layout_width="80dp"
+        android:layout_width="60dp"
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
 
@@ -85,9 +92,9 @@
 
     <TextView
         android:id="@+id/text9"
-        android:layout_width="80dp"
+        android:layout_width="60dp"
         android:layout_height="30dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="20dp"
 
         android:layout_marginTop="8dp"
         android:text="TextView"
@@ -98,8 +105,7 @@
         android:id="@+id/P2"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:text="P2"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -108,8 +114,7 @@
     <TextView
         android:id="@+id/p10"
         android:layout_width="45dp"
-        android:layout_height="28dp"
-        android:layout_marginStart="8dp"
+        android:layout_height="30dp"
         android:layout_marginTop="8dp"
         android:text="P10"
         android:textSize="24sp"
@@ -118,7 +123,7 @@
 
     <TextView
         android:id="@+id/text2"
-        android:layout_width="80dp"
+        android:layout_width="60dp"
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
 
@@ -129,10 +134,10 @@
 
     <TextView
         android:id="@+id/text10"
-        android:layout_width="80dp"
+        android:layout_width="60dp"
         android:layout_height="30dp"
 
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/p10"
@@ -142,7 +147,6 @@
         android:id="@+id/P3"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="P3"
         android:textSize="24sp"
@@ -151,10 +155,9 @@
 
     <TextView
         android:id="@+id/p11"
-        android:layout_width="50dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="45dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
         android:text="P11"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -162,7 +165,7 @@
 
     <TextView
         android:id="@+id/text3"
-        android:layout_width="80dp"
+        android:layout_width="60dp"
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -173,10 +176,10 @@
 
     <TextView
         android:id="@+id/text11"
-        android:layout_width="80dp"
+        android:layout_width="60dp"
         android:layout_height="30dp"
 
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/p11"
@@ -186,7 +189,6 @@
         android:id="@+id/P4"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="P4"
         android:textSize="24sp"
@@ -196,8 +198,7 @@
     <TextView
         android:id="@+id/p12"
         android:layout_width="45dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="24dp"
+        android:layout_height="30dp"
         android:layout_marginTop="8dp"
         android:text="P12"
         android:textSize="24sp"
@@ -206,7 +207,7 @@
 
     <TextView
         android:id="@+id/text4"
-        android:layout_width="80dp"
+        android:layout_width="60dp"
         android:layout_height="30dp"
 
         android:layout_marginStart="8dp"
@@ -218,10 +219,10 @@
 
     <TextView
         android:id="@+id/text12"
-        android:layout_width="80dp"
-        android:layout_height="23dp"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
 
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/p12"
@@ -231,7 +232,7 @@
         android:id="@+id/P5"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="28dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="P5"
         android:textSize="24sp"
@@ -240,9 +241,9 @@
 
     <TextView
         android:id="@+id/p13"
-        android:layout_width="52dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="28dp"
+        android:layout_width="45dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="P13"
         android:textSize="24sp"
@@ -251,9 +252,9 @@
 
     <TextView
         android:id="@+id/text5"
-        android:layout_width="80dp"
+        android:layout_width="60dp"
         android:layout_height="30dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
 
         android:text="TextView"
@@ -262,9 +263,9 @@
 
     <TextView
         android:id="@+id/text13"
-        android:layout_width="80dp"
+        android:layout_width="60dp"
         android:layout_height="30dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
 
         android:text="TextView"
@@ -275,7 +276,7 @@
         android:id="@+id/P6"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="36dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="P6"
         android:textSize="24sp"
@@ -284,10 +285,10 @@
 
     <TextView
         android:id="@+id/p14"
-        android:layout_width="51dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="45dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="P14"
         android:textSize="24sp"
         app:layout_constraintStart_toEndOf="@+id/text10"
@@ -297,7 +298,7 @@
         android:id="@+id/text6"
         android:layout_width="80dp"
         android:layout_height="30dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
 
         android:text="TextView"
@@ -306,7 +307,7 @@
 
     <TextView
         android:id="@+id/text14"
-        android:layout_width="80dp"
+        android:layout_width="60dp"
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
 
@@ -319,7 +320,7 @@
         android:id="@+id/P7"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="36dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="P7"
         android:textSize="24sp"
@@ -328,9 +329,9 @@
 
     <TextView
         android:id="@+id/p15"
-        android:layout_width="55dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="20dp"
+        android:layout_width="45dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="P15"
         android:textSize="24sp"
@@ -341,7 +342,7 @@
         android:id="@+id/text7"
         android:layout_width="80dp"
         android:layout_height="30dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/P7"
@@ -349,7 +350,7 @@
 
     <TextView
         android:id="@+id/text15"
-        android:layout_width="80dp"
+        android:layout_width="60dp"
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -361,8 +362,8 @@
         android:id="@+id/P8"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="P8"
         android:textSize="24sp"
         app:layout_constraintStart_toEndOf="@+id/text4"
@@ -370,10 +371,10 @@
 
     <TextView
         android:id="@+id/p16"
-        android:layout_width="48dp"
-        android:layout_height="28dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="45dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="P16"
         android:textSize="24sp"
         app:layout_constraintStart_toEndOf="@+id/text12"
@@ -383,8 +384,8 @@
         android:id="@+id/text8"
         android:layout_width="80dp"
         android:layout_height="30dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
 
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/P8"
@@ -392,7 +393,7 @@
 
     <TextView
         android:id="@+id/text16"
-        android:layout_width="80dp"
+        android:layout_width="60dp"
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
 
@@ -416,37 +417,89 @@
 
     <TextView
         android:id="@+id/texttotal1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.016"
         app:layout_constraintStart_toEndOf="@+id/buttonScan"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/texttotalfinal"
-        android:layout_width="128dp"
-        android:layout_height="43dp"
+        android:layout_width="62dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/output"
+        android:layout_width="351dp"
+        android:layout_height="122dp"
         android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.029"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonScan3"
+        app:layout_constraintVertical_bias="0.486" />
 
     <TextView
         android:id="@+id/texttotal2"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="224dp"
+        android:layout_marginTop="228dp"
         android:layout_marginEnd="32dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintHorizontal_bias="0.02"
         app:layout_constraintStart_toEndOf="@+id/buttonScan2"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/totalpressure"
+        android:layout_width="45dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:text="總壓力"
+        app:layout_constraintEnd_toStartOf="@+id/texttotalfinal"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/limit"
+        android:layout_width="78dp"
+        android:layout_height="103dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="12dp"
+        android:hint="請輸入限制百分比(EX : 0.85)"
+        app:layout_constraintEnd_toStartOf="@+id/limitbutton"
+        app:layout_constraintTop_toBottomOf="@+id/totalpressure" />
+
+    <Button
+        android:id="@+id/limitbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="16dp"
+        android:text="輸入"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/texttotalfinal" />
+
+    <Button
+        android:id="@+id/cancelbutton"
+        android:layout_width="52dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="取消限制"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/limitbutton" />
 
 </android.support.constraint.ConstraintLayout>

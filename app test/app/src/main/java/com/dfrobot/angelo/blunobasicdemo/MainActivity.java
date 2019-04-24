@@ -1,11 +1,16 @@
 package com.dfrobot.angelo.blunobasicdemo;
 
+import android.annotation.SuppressLint;
+import android.app.Service;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.content.Intent;
+import android.os.Vibrator;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -13,14 +18,32 @@ import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import android.os.Vibrator;
 
 public class MainActivity  extends BlunoLibrary {
+
+
+	private static String DATABASE_TABLE = "ONE";
+	private static String DATABASE_TABLE2 = "TWO";
+	private SQLiteDatabase db;
+	private MyDBHelper dbHelper;
+
+
+
 	private Button buttonScan;
 	private Button buttonScan2;
 
+	private Button buttonScan3;
+
+	private Button limitbutton;
+	private Button cancelbutton;
+
 	private TextView test, text1, text2, text3, text4, text5, text6, text7, text8;
 	private TextView test2, text9, text10, text11, text12, text13, text14, text15, text16;
-	private TextView texttotal1, texttotal2, texttotalfinal;
+	private TextView texttotal1, texttotal2, texttotalfinal, output;
+	private EditText limit;
 	private int time = 0;
 	private int time2 = 0;
 	private float total1 = 1;
@@ -31,6 +54,8 @@ public class MainActivity  extends BlunoLibrary {
 	private int initial = 0;
 	private float[] texttotalfinalTOKEN ={0,0,0,0,0};
 
+	private float limitPercent = 0;
+
 
 
 	@Override
@@ -38,6 +63,9 @@ public class MainActivity  extends BlunoLibrary {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		onCreateProcess();
+
+		dbHelper = new MyDBHelper(this);
+		db = dbHelper.getWritableDatabase();
 
 
 		test = (TextView) findViewById(R.id.testtest);
@@ -63,6 +91,8 @@ public class MainActivity  extends BlunoLibrary {
 		texttotal1 = (TextView) findViewById(R.id.texttotal1);
 		texttotal2 = (TextView) findViewById(R.id.texttotal2);
 		texttotalfinal = (TextView) findViewById(R.id.texttotalfinal);
+		output = (TextView) findViewById(R.id.output);
+		limit = (EditText) findViewById(R.id.limit);
 
 		serialBegin(115200);
 
@@ -88,6 +118,44 @@ public class MainActivity  extends BlunoLibrary {
 				buttonScanOnClickProcess2();
 			}
 		});
+
+		buttonScan3 = (Button) findViewById(R.id.buttonScan3);
+		buttonScan3.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+
+				buttonScanOnClickProcess3();
+			}
+		});
+
+		limitbutton = (Button) findViewById(R.id.limitbutton);
+		limitbutton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				limitPercent = Float.parseFloat(limit.getText().toString());
+				System.out.println(limitPercent);
+
+
+			}
+		});
+
+		cancelbutton = (Button) findViewById(R.id.cancelbutton);
+		cancelbutton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				limitPercent = 0;
+				System.out.println(limitPercent);
+
+
+			}
+		});
+
 	}
 
 	protected void onResume() {
@@ -111,6 +179,7 @@ public class MainActivity  extends BlunoLibrary {
 
 	protected void onStop() {
 		super.onStop();
+		db.close();
 		onStopProcess();
 	}
 
@@ -165,6 +234,12 @@ public class MainActivity  extends BlunoLibrary {
 		}
 	}
 
+	public void setVibrate(int time){
+		Vibrator myVibrator = (Vibrator) getSystemService(Service.VIBRATOR_SERVICE);
+		Log.e("TAG", "vibrator="+ myVibrator.hasVibrator());
+		myVibrator.vibrate(time);
+	}
+
 	@Override
 	public void onSerialReceived(String theString){
 		// TODO Auto-generated method stub
@@ -172,7 +247,7 @@ public class MainActivity  extends BlunoLibrary {
 		String[] token = test.getText().toString().split(",");
 		if(token.length%8 == 0) {
 			if(time < token.length) {
-			    if(x != 0) {
+			    if(x != 0 && limitPercent == 0) {
                     text1.setText(String.format("%.3f", Float.parseFloat(token[time]) / x));
                     text2.setText(String.format("%.3f", Float.parseFloat(token[time + 1]) / x));
                     text3.setText(String.format("%.3f", Float.parseFloat(token[time + 2]) / x));
@@ -182,7 +257,53 @@ public class MainActivity  extends BlunoLibrary {
                     text7.setText(String.format("%.3f", Float.parseFloat(token[time + 6]) / x));
                     text8.setText(String.format("%.3f", Float.parseFloat(token[time + 7]) / x));
                     texttotal1.setText(String .format("%.3f", total1/x));
-                }
+
+					SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日HH:mm:ss:SSS");
+					Date curDate = new Date(System.currentTimeMillis()) ; // 獲取當前時間
+					String str = formatter.format(curDate);
+
+					ContentValues cv = new ContentValues();
+					cv.put("x", x);
+					cv.put("LR", 1);
+                    cv.put("time", str);
+					cv.put("value", total1/x);
+					long new_id = db.insert(DATABASE_TABLE, null, cv);
+
+
+					System.out.println("DBConnection"+ new_id + curDate);
+					System.out.println(str);
+                }else if(x != 0 && limitPercent != 0){
+					text1.setText(String.format("%.3f", Float.parseFloat(token[time]) / x));
+					text2.setText(String.format("%.3f", Float.parseFloat(token[time + 1]) / x));
+					text3.setText(String.format("%.3f", Float.parseFloat(token[time + 2]) / x));
+					text4.setText(String.format("%.3f", Float.parseFloat(token[time + 3]) / x));
+					text5.setText(String.format("%.3f", Float.parseFloat(token[time + 4]) / x));
+					text6.setText(String.format("%.3f", Float.parseFloat(token[time + 5]) / x));
+					text7.setText(String.format("%.3f", Float.parseFloat(token[time + 6]) / x));
+					text8.setText(String.format("%.3f", Float.parseFloat(token[time + 7]) / x));
+					texttotal1.setText(String .format("%.3f", total1/x));
+
+					if(total1/x > limitPercent){
+						setVibrate(5000);
+					}
+
+					SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日HH:mm:ss:SSS");
+					Date curDate = new Date(System.currentTimeMillis()) ; // 獲取當前時間
+					String str = formatter.format(curDate);
+
+					ContentValues cv = new ContentValues();
+					cv.put("x", x);
+					cv.put("LR", 1);
+					cv.put("time", str);
+					cv.put("value", total1/x);
+					long new_id = db.insert(DATABASE_TABLE, null, cv);
+
+
+					System.out.println("DBConnection"+ new_id + curDate);
+					System.out.println(str);
+
+
+				}
 				total1= Integer.parseInt(token[time])+Integer.parseInt(token[time+ 1])+Integer.parseInt(token[time+ 2])+Integer.parseInt(token[time+ 3])+
 						Integer.parseInt(token[time+ 4])+Integer.parseInt(token[time+ 5])+Integer.parseInt(token[time+ 6])+Integer.parseInt(token[time+ 7]);
 				time = time+8;
@@ -205,6 +326,21 @@ public class MainActivity  extends BlunoLibrary {
                     text15.setText(String.format("%.3f", Float.parseFloat(token2[time2 + 6]) / x));
                     text16.setText(String.format("%.3f", Float.parseFloat(token2[time2 + 7]) / x));
                     texttotal2.setText(String .format("%.3f", total2/x));
+
+					SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日HH:mm:ss:SSS");
+					Date curDate = new Date(System.currentTimeMillis()) ; // 獲取當前時間
+					String str = formatter.format(curDate);
+
+					ContentValues cv = new ContentValues();
+					cv.put("x", x);
+					cv.put("LR", 2);
+					cv.put("time", str);
+					cv.put("value", total2/x);
+					long new_id = db.insert(DATABASE_TABLE2, null, cv);
+
+
+					System.out.println("DBConnection22222222"+ new_id + curDate);
+					System.out.println(str);
                 }
 				total2= Integer.parseInt(token2[time2])+Integer.parseInt(token2[time2+ 1])+Integer.parseInt(token2[time2+ 2])+Integer.parseInt(token2[time2+ 3])+
 						Integer.parseInt(token2[time2+ 4])+Integer.parseInt(token2[time2+ 5])+Integer.parseInt(token2[time2+ 6])+Integer.parseInt(token2[time2+ 7]);
@@ -221,78 +357,25 @@ public class MainActivity  extends BlunoLibrary {
 			}
 		}
 	}
-}
-
-
-
-/*
-		//The Serial data from the BLUNO may be sub-packaged, so using a buffer to hold the String is a good choice.
-
-	public class MySQLiteManager extends SQLiteOpenHelper {
-
-		private final static int DB_VERSION = 1; // 資料庫版本
-
-
-		private final static String DB_NAME = "MySQLite.db"; //資料庫名稱，附檔名為db
-
-
-		private final static String INFO_TABLE = "valuetable";
-		private final static String ROW_ID = "rowId"; //欄位名稱
-
-		private final static String NAME = "name"; //欄位名稱
-		private final static String TIME = "time"; //欄位名稱
-		private final static String VALUE = "value"; //欄位名稱
-
-
-		public MySQLiteManager (Context context) {
-*/
-			/*
-			 *   SQLiteOpenHelper
-			 * (Context context, String name, SQLiteDatabase.CursorFactory factory, int version)
-			 * 通常我們只會傳回context, DB_NAME, DB_VERSION;
-			 * factory 我也不大了解作用是什麼。
-			 */
-/*
-			super(context, DB_NAME, null, DB_VERSION);
+	public void buttonScanOnClickProcess3()
+	{
+		String[] colNames=new String[]{"_id","x","LR","time","value"};
+		String str = "";
+		Cursor c = db.query(DATABASE_TABLE, colNames,null, null, null, null,null);
+		// 顯示欄位名稱
+		for (int i = 0; i < colNames.length; i++)
+			str += colNames[i] + "\t\t";
+		str += "\n";
+		c.moveToFirst();  // 第1筆
+		// 顯示欄位值
+		for (int i = 0; i < c.getCount(); i++) {
+			str += c.getString(c.getColumnIndex(colNames[0])) + "\t\t";
+			str += c.getString(1) + "\t\t";
+			str += c.getString(2) + "\t\t";
+			str += c.getString(3) + "\t\t";
+			str += c.getString(4) + "\n";
+			c.moveToNext();  // 下一筆
 		}
-
-		// 每次使用將會檢查是否有無資料表，若無，則會建立資料表
-
-
-		@Override
-		public void onCreate(SQLiteDatabase db) {
-
-			//SQLite 所支援屬性帳面上的不多，但事實上也是能夠讀取一些其它屬性
-
-			String createTable = "CREATE TABLE " + INFO_TABLE+ " ("
-					+ ROW_ID + "INTEGER PRIMARY KEY AUTOINCREMENT, "  //這個屬性可以讓每次新增一筆資料，自動累加
-
-					+ NAME + " TEXT, "
-					+ TIME + " TEXT, "
-					+ VALUE + " TEXT);";
-
-			db.execSQL(createTable);
-		}
-
-		@Override
-		public void onUpgrade(SQLiteDatabase db, int i, int i2) {
-
-		}
-		//以下為新增方法
-		public void insterInfo(SQLiteDatabase db, String name, String time, String value) {
-
-			ContentValues contentValues = new ContentValues();
-			contentValues.put(NAME, name);
-			contentValues.put(TIME, time);
-			contentValues.put(VALUE, value);
-
-			db.insert(INFO_TABLE, null, contentValues);
-		}
-
-		//以下為刪除法
-		public void removeInfo(SQLiteDatabase db, String rowId) {
-			db.delete(INFO_TABLE, ROW_ID + "=?", new String[]{rowId});
-		}
+		output.setText(str.toString());
 	}
-
-*/
+}
