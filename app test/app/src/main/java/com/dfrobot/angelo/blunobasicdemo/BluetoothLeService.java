@@ -57,8 +57,8 @@ public class BluetoothLeService extends Service {
 
     private ArrayList<BluetoothGatt> connectionQueue = new ArrayList<BluetoothGatt>();
 
-    public static final String address1="A4:D5:78:0D:93:33";
-    public static final String address2="A4:D5:78:0D:01:D4";
+    public static final String address1="F4:5E:AB:B1:0A:2C";
+    public static final String address2="F4:5E:AB:B0:83:6F";
 
     public final static String ACTION_GATT_CONNECTED =
             "com.example.bluetooth.le.ACTION_GATT_CONNECTED";

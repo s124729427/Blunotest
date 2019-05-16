@@ -7,9 +7,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.content.Intent;
 import android.os.Vibrator;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,7 +22,13 @@ import android.widget.TextView;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import android.media.AudioManager;
+import android.media.SoundPool;
+
+
 import android.os.Vibrator;
+
 
 public class MainActivity  extends BlunoLibrary {
 
@@ -40,10 +48,14 @@ public class MainActivity  extends BlunoLibrary {
 	private Button limitbutton;
 	private Button cancelbutton;
 
+	private Button limitbutton2;
+	private Button cancelbutton2;
+
 	private TextView test, text1, text2, text3, text4, text5, text6, text7, text8;
 	private TextView test2, text9, text10, text11, text12, text13, text14, text15, text16;
 	private TextView texttotal1, texttotal2, texttotalfinal, output;
-	private EditText limit;
+	private EditText limit,limit2;
+
 	private int time = 0;
 	private int time2 = 0;
 	private float total1 = 1;
@@ -55,7 +67,13 @@ public class MainActivity  extends BlunoLibrary {
 	private float[] texttotalfinalTOKEN ={0,0,0,0,0};
 
 	private float limitPercent = 0;
+	private float limitPercent2 = 0;
 
+	private SoundPool soundpool;//声明一个SoundPool对象
+	private HashMap<Integer,Integer> soundmap=new HashMap<Integer,Integer>();//创建一个HashMap对象
+
+	public MainActivity() {
+	}
 
 
 	@Override
@@ -66,6 +84,14 @@ public class MainActivity  extends BlunoLibrary {
 
 		dbHelper = new MyDBHelper(this);
 		db = dbHelper.getWritableDatabase();
+
+
+		//创建一个SoundPool对象，该对象可以容纳5个音频流
+		soundpool=new SoundPool(1,AudioManager.STREAM_MUSIC,0);
+
+		//将要播放的音频流保存到HashMap对象中
+		soundmap.put(1,soundpool.load(this, R.raw.dive,1));
+
 
 
 		test = (TextView) findViewById(R.id.testtest);
@@ -91,10 +117,14 @@ public class MainActivity  extends BlunoLibrary {
 		texttotal1 = (TextView) findViewById(R.id.texttotal1);
 		texttotal2 = (TextView) findViewById(R.id.texttotal2);
 		texttotalfinal = (TextView) findViewById(R.id.texttotalfinal);
-		output = (TextView) findViewById(R.id.output);
+	/*
+	output = (TextView) findViewById(R.id.output);
+	 */
 		limit = (EditText) findViewById(R.id.limit);
+		limit2 = (EditText) findViewById(R.id.limit2);
 
 		serialBegin(115200);
+
 
 
 		buttonScan = (Button) findViewById(R.id.buttonScan);
@@ -118,7 +148,7 @@ public class MainActivity  extends BlunoLibrary {
 				buttonScanOnClickProcess2();
 			}
 		});
-
+/*
 		buttonScan3 = (Button) findViewById(R.id.buttonScan3);
 		buttonScan3.setOnClickListener(new OnClickListener() {
 
@@ -129,7 +159,7 @@ public class MainActivity  extends BlunoLibrary {
 				buttonScanOnClickProcess3();
 			}
 		});
-
+*/
 		limitbutton = (Button) findViewById(R.id.limitbutton);
 		limitbutton.setOnClickListener(new OnClickListener() {
 
@@ -151,6 +181,32 @@ public class MainActivity  extends BlunoLibrary {
 				// TODO Auto-generated method stub
 				limitPercent = 0;
 				System.out.println(limitPercent);
+
+
+			}
+		});
+
+		limitbutton2 = (Button) findViewById(R.id.limitbutton2);
+		limitbutton2.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				limitPercent2 = Float.parseFloat(limit2.getText().toString());
+				System.out.println(limitPercent2);
+
+
+			}
+		});
+
+		cancelbutton2 = (Button) findViewById(R.id.cancelbutton2);
+		cancelbutton2.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				limitPercent2 = 0;
+				System.out.println(limitPercent2);
 
 
 			}
@@ -193,16 +249,16 @@ public class MainActivity  extends BlunoLibrary {
 	public void onConectionStateChange(connectionStateEnum theConnectionState) {
 		switch (theConnectionState) {
 			case isConnected:
-				buttonScan.setText("1號藍牙裝置已連線");
+				buttonScan.setText("L已連線");
 				break;
 			case isConnecting:
-				buttonScan.setText("正在連結中");
+				buttonScan.setText("正在連結...");
 				break;
 			case isToScan:
-				buttonScan.setText("連結1號藍牙裝置");
+				buttonScan.setText("連結L藍牙裝置");
 				break;
 			case isScanning:
-				buttonScan.setText("Scanning");
+				buttonScan.setText("掃描...");
 				break;
 			case isDisconnecting:
 				buttonScan.setText("連結已斷開");
@@ -215,19 +271,19 @@ public class MainActivity  extends BlunoLibrary {
 	public void onConectionStateChange2(connectionStateEnum theConnectionState) {
 		switch (theConnectionState) {
 			case isConnected:
-				buttonScan2.setText("Connected");
+				buttonScan2.setText("R已連線");
 				break;
 			case isConnecting:
-				buttonScan2.setText("Connecting");
+				buttonScan2.setText("正在連結...");
 				break;
 			case isToScan:
-				buttonScan2.setText("Scan");
+				buttonScan2.setText("連結R藍牙裝置");
 				break;
 			case isScanning:
-				buttonScan2.setText("Scanning");
+				buttonScan2.setText("掃描...");
 				break;
 			case isDisconnecting:
-				buttonScan2.setText("isDisconnecting");
+				buttonScan2.setText("連結已斷開");
 				break;
 			default:
 				break;
@@ -285,6 +341,7 @@ public class MainActivity  extends BlunoLibrary {
 
 					if(total1/x > limitPercent){
 						setVibrate(5000);
+						soundpool.play(soundmap.get(1), 1,1,0,0,1);
 					}
 
 					SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日HH:mm:ss:SSS");
@@ -310,13 +367,15 @@ public class MainActivity  extends BlunoLibrary {
 			}
 		}
 	}
+
+
 	public void onSerialReceived2(String theString){
 		// TODO Auto-generated method stub
 		test2.append(theString);
 		String[] token2 = test2.getText().toString().split(",");
 		if(token2.length%8 == 0) {
 			if(time2 < token2.length) {
-			    if(x != 0) {
+			    if(x != 0 && limitPercent2 == 0) {
                     text9.setText(String.format("%.3f", Float.parseFloat(token2[time2]) / x));
                     text10.setText(String.format("%.3f", Float.parseFloat(token2[time2 + 1]) / x));
                     text11.setText(String.format("%.3f", Float.parseFloat(token2[time2 + 2]) / x));
@@ -341,11 +400,45 @@ public class MainActivity  extends BlunoLibrary {
 
 					System.out.println("DBConnection22222222"+ new_id + curDate);
 					System.out.println(str);
-                }
-				total2= Integer.parseInt(token2[time2])+Integer.parseInt(token2[time2+ 1])+Integer.parseInt(token2[time2+ 2])+Integer.parseInt(token2[time2+ 3])+
+                }else if(x != 0 && limitPercent2 != 0){
+					text9.setText(String.format("%.3f", Float.parseFloat(token2[time2]) / x));
+					text10.setText(String.format("%.3f", Float.parseFloat(token2[time2 + 1]) / x));
+					text11.setText(String.format("%.3f", Float.parseFloat(token2[time2 + 2]) / x));
+					text12.setText(String.format("%.3f", Float.parseFloat(token2[time2 + 3]) / x));
+					text13.setText(String.format("%.3f", Float.parseFloat(token2[time2 + 4]) / x));
+					text14.setText(String.format("%.3f", Float.parseFloat(token2[time2 + 5]) / x));
+					text15.setText(String.format("%.3f", Float.parseFloat(token2[time2 + 6]) / x));
+					text16.setText(String.format("%.3f", Float.parseFloat(token2[time2 + 7]) / x));
+					texttotal2.setText(String .format("%.3f", total2/x));
+
+					if(total1/x > limitPercent2){
+						setVibrate(5000);
+						soundpool.play(soundmap.get(1), 1,1,0,0,1);
+					}
+
+
+					SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日HH:mm:ss:SSS");
+					Date curDate = new Date(System.currentTimeMillis()) ; // 獲取當前時間
+					String str = formatter.format(curDate);
+
+					ContentValues cv = new ContentValues();
+					cv.put("x", x);
+					cv.put("LR", 2);
+					cv.put("time", str);
+					cv.put("value", total2/x);
+					long new_id = db.insert(DATABASE_TABLE2, null, cv);
+
+
+					System.out.println("DBConnection22222222"+ new_id + curDate);
+					System.out.println(str);
+				}
+
+			    total2= Integer.parseInt(token2[time2])+Integer.parseInt(token2[time2+ 1])+Integer.parseInt(token2[time2+ 2])+Integer.parseInt(token2[time2+ 3])+
 						Integer.parseInt(token2[time2+ 4])+Integer.parseInt(token2[time2+ 5])+Integer.parseInt(token2[time2+ 6])+Integer.parseInt(token2[time2+ 7]);
 				total1total2 = total1+total2;
 				time2 = time2+8;
+
+
 				if(total1 != 1 && total2 != 1 && initial<5){
 					texttotalfinalTOKEN[initial] = total1total2;
 					initial++;
@@ -357,6 +450,8 @@ public class MainActivity  extends BlunoLibrary {
 			}
 		}
 	}
+
+/*
 	public void buttonScanOnClickProcess3()
 	{
 		String[] colNames=new String[]{"_id","x","LR","time","value"};
@@ -378,4 +473,5 @@ public class MainActivity  extends BlunoLibrary {
 		}
 		output.setText(str.toString());
 	}
+*/
 }
