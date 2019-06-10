@@ -34,10 +34,10 @@
         android:id="@+id/buttonScan2"
         android:layout_width="120dp"
         android:layout_height="35dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="連結R藍牙裝置"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text4" />
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <TextView
         android:id="@+id/testtest"
@@ -407,98 +407,145 @@
         android:id="@+id/texttotal1"
         android:layout_width="60dp"
         android:layout_height="30dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginTop="36dp"
         android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/buttonScan"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/text4" />
 
     <TextView
         android:id="@+id/texttotalfinal"
         android:layout_width="60dp"
         android:layout_height="30dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="36dp"
         android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/totalpressure"
+        app:layout_constraintTop_toBottomOf="@+id/text8" />
 
     <TextView
         android:id="@+id/texttotal2"
         android:layout_width="60dp"
         android:layout_height="30dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginTop="28dp"
         android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/buttonScan2"
-        app:layout_constraintTop_toBottomOf="@+id/text8" />
+        app:layout_constraintStart_toEndOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/LtextView" />
 
     <TextView
         android:id="@+id/totalpressure"
         android:layout_width="45dp"
         android:layout_height="20dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginTop="44dp"
         android:text="總壓力"
-        app:layout_constraintEnd_toStartOf="@+id/texttotalfinal"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/texttotal1"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/text4" />
 
-    <EditText
+  <!-- EditText
         android:id="@+id/limit"
         android:layout_width="110dp"
         android:layout_height="92dp"
         android:layout_marginTop="16dp"
         android:hint="請輸入限制百分比(EX : 0.85)"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/totalpressure" />
+        app:layout_constraintTop_toBottomOf="@+id/totalpressure" /-->
 
-    <EditText
+    <!--EditText
         android:id="@+id/limit2"
         android:layout_width="112dp"
         android:layout_height="92dp"
         android:layout_marginTop="4dp"
         android:hint="請輸入限制百分比(EX : 0.85)"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/limitbutton" />
+        app:layout_constraintTop_toBottomOf="@+id/limitbutton" /-->
 
-    <Button
+    <!--Button
         android:id="@+id/limitbutton"
         android:layout_width="55dp"
         android:layout_height="65dp"
         android:layout_marginTop="12dp"
         android:text="輸入"
         app:layout_constraintEnd_toStartOf="@+id/cancelbutton"
-        app:layout_constraintTop_toBottomOf="@+id/limit" />
+        app:layout_constraintTop_toBottomOf="@+id/limit" /-->
 
-    <Button
+    <!--Button
         android:id="@+id/limitbutton2"
         android:layout_width="55dp"
         android:layout_height="65dp"
         android:layout_marginTop="8dp"
         android:text="輸入"
         app:layout_constraintEnd_toStartOf="@+id/cancelbutton2"
-        app:layout_constraintTop_toBottomOf="@+id/limit2" />
+        app:layout_constraintTop_toBottomOf="@+id/limit2" /-->
 
-    <Button
+    <!--Button
         android:id="@+id/cancelbutton"
         android:layout_width="55dp"
         android:layout_height="65dp"
         android:layout_marginTop="12dp"
         android:text="取消限制"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/limit" />
+        app:layout_constraintTop_toBottomOf="@+id/limit" /-->
 
-    <Button
+    <!--Button
         android:id="@+id/cancelbutton2"
         android:layout_width="55dp"
         android:layout_height="65dp"
         android:layout_marginTop="8dp"
         android:text="取消限制"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/limit2" />
+        app:layout_constraintTop_toBottomOf="@+id/limit2" /-->
+
+    <TextView
+        android:id="@+id/LtextView"
+        android:layout_width="70dp"
+        android:layout_height="150dp"
+        android:background="#E8FFFFFF"
+        android:text="L"
+        android:textColor="#EE8282"
+        android:textSize="128sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner1" />
+
+    <TextView
+        android:id="@+id/RtextView"
+        android:layout_width="75dp"
+        android:layout_height="150dp"
+        android:background="#E8FFFFFF"
+        android:text="R"
+        android:textColor="#EE8282"
+        android:textSize="128sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner2" />
+
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinner2"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/texttotal2" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="36dp"
+        android:text="L總壓力"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text4" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="R總壓力"
+        app:layout_constraintStart_toEndOf="@+id/texttotalfinal"
+        app:layout_constraintTop_toBottomOf="@+id/LtextView" />
 
 </android.support.constraint.ConstraintLayout>

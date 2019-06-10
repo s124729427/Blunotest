@@ -67,8 +67,12 @@ public abstract  class BlunoLibrary  extends Activity{
     private final static String TAG = BlunoLibrary.class.getSimpleName();
 
 	public static final String SerialPortUUID="0000dfb1-0000-1000-8000-00805f9b34fb";
-	public static final String address1="F4:5E:AB:B1:0A:2C";
-	public static final String address2="F4:5E:AB:B0:83:6F";
+	public static final String address1="1C:BA:8C:1D:81:8A";
+	public static final String address2="1C:BA:8C:1D:85:4D";
+
+//	public static final String address1="F4:5E:AB:B1:0A:2C";
+//	public static final String address2="1C:BA:8C:1D:86:82";
+
 	private boolean address1blooean = true;
 	private boolean address2blooean = true;
 
@@ -348,7 +352,7 @@ public abstract  class BlunoLibrary  extends Activity{
 		if (enable) {
 			System.out.println("mBluetoothAdapter.startLeScan");
 			try {
-				Thread.sleep(250);
+				Thread.sleep(5);
 				if(!mScanning)
 				{
 					if(address1blooean == true) {
@@ -373,7 +377,7 @@ public abstract  class BlunoLibrary  extends Activity{
 		if (enable) {
 			System.out.println("mBluetoothAdapter.startLeScan");
 			try {
-				Thread.sleep(250);
+				Thread.sleep(5);
 				 if(!mScanning2)
 				{
 					if(address2blooean == true){
@@ -487,7 +491,7 @@ public abstract  class BlunoLibrary  extends Activity{
 					break;
 				}else {
 					try {
-						Thread.sleep(250);
+						Thread.sleep(5);
 
 					} catch (InterruptedException e) {
 						e.printStackTrace();
@@ -524,7 +528,7 @@ public abstract  class BlunoLibrary  extends Activity{
 					break;
 				}else {
 					try {
-						Thread.sleep(250);
+						Thread.sleep(5);
 
 					} catch (InterruptedException e) {
 						e.printStackTrace();
