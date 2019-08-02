@@ -12,9 +12,9 @@ public class MyDBHelper extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE ONE (_id " + "integer primary key autoincrement, " + "x real no null, LR real no null, time text no null, value real no null, value1 real no null, value2 real no null, value3 real no null, value4 real no null, value5 real no null, value6 real no null, value7 real no null, value8 real no null)");
+        db.execSQL("CREATE TABLE SL (_id " + "integer primary key autoincrement, " + "PTOTAL text no null, time text no null, LR text no null, SL1 text no null, SL2 text no null, SL3 text no null, SL4 text no null, SL5 text no null, SL6 text no null, SL7 text no null, SL8 text no null)");
 
-        db.execSQL("CREATE TABLE TWO (_id " + "integer primary key autoincrement, " + "x real no null, LR real no null, time text no null, value real no null, value1 real no null, value2 real no null, value3 real no null, value4 real no null, value5 real no null, value6 real no null, value7 real no null, value8 real no null)");
+        db.execSQL("CREATE TABLE SR (_id " + "integer primary key autoincrement, " + "PTOTAL text no null, time text no null, LR text no null, SR1 text no null, SR2 text no null, SR3 text no null, SR4 text no null, SR5 text no null, SR6 text no null, SR7 text no null, SR8 text no null)");
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

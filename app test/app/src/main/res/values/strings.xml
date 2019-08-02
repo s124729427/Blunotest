@@ -22,11 +22,12 @@
     <string name="action_settings">Action settings</string>
 
     <string-array name="lunch">
-        <item>0%</item>
-        <item>5%</item>
-        <item>10%</item>
-        <item>15%</item>
-        <item>20%</item>
+        <item>無</item>
+        <item>Low:5% High:15%</item>
+        <item>Low:15% High:25%</item>
+        <item>Low:25% High:35%</item>
+        <item>Low:35% High:45%</item>
+        <item>Low:45% High:55%</item>
     </string-array>
 
 

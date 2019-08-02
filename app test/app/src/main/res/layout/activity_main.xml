@@ -74,7 +74,6 @@
         android:layout_marginStart="8dp"
 
         android:layout_marginTop="8dp"
-        android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/P1"
         app:layout_constraintTop_toBottomOf="@+id/buttonScan" />
 
@@ -85,7 +84,6 @@
         android:layout_marginStart="4dp"
 
         android:layout_marginTop="8dp"
-        android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/p9"
         app:layout_constraintTop_toBottomOf="@+id/buttonScan2" />
 
@@ -116,7 +114,6 @@
         android:layout_marginStart="8dp"
 
         android:layout_marginTop="8dp"
-        android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/P2"
         app:layout_constraintTop_toBottomOf="@+id/text1" />
 
@@ -127,7 +124,6 @@
 
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/p10"
         app:layout_constraintTop_toBottomOf="@+id/text9" />
 
@@ -158,7 +154,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
 
-        android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/P3"
         app:layout_constraintTop_toBottomOf="@+id/text2" />
 
@@ -169,7 +164,6 @@
 
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/p11"
         app:layout_constraintTop_toBottomOf="@+id/text10" />
 
@@ -201,7 +195,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
 
-        android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/P4"
         app:layout_constraintTop_toBottomOf="@+id/text3" />
 
@@ -212,7 +205,6 @@
 
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/p12"
         app:layout_constraintTop_toBottomOf="@+id/text11" />
 
@@ -245,7 +237,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
 
-        android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/P5"
         app:layout_constraintTop_toBottomOf="@+id/buttonScan" />
 
@@ -256,7 +247,6 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
 
-        android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/p13"
         app:layout_constraintTop_toBottomOf="@+id/buttonScan2" />
 
@@ -289,7 +279,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
 
-        android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/P6"
         app:layout_constraintTop_toBottomOf="@+id/text5" />
 
@@ -300,7 +289,6 @@
         android:layout_marginStart="8dp"
 
         android:layout_marginTop="8dp"
-        android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/p14"
         app:layout_constraintTop_toBottomOf="@+id/text13" />
 
@@ -332,7 +320,6 @@
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/P7"
         app:layout_constraintTop_toBottomOf="@+id/text6" />
 
@@ -342,7 +329,6 @@
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/p15"
         app:layout_constraintTop_toBottomOf="@+id/text14" />
 
@@ -375,7 +361,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
 
-        android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/P8"
         app:layout_constraintTop_toBottomOf="@+id/text7" />
 
@@ -386,7 +371,6 @@
         android:layout_marginStart="8dp"
 
         android:layout_marginTop="8dp"
-        android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/p16"
         app:layout_constraintTop_toBottomOf="@+id/text15" />
 
@@ -408,7 +392,6 @@
         android:layout_width="60dp"
         android:layout_height="30dp"
         android:layout_marginTop="36dp"
-        android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/textView5"
         app:layout_constraintTop_toBottomOf="@+id/text4" />
 
@@ -417,7 +400,6 @@
         android:layout_width="60dp"
         android:layout_height="30dp"
         android:layout_marginTop="36dp"
-        android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/totalpressure"
         app:layout_constraintTop_toBottomOf="@+id/text8" />
 
@@ -426,7 +408,6 @@
         android:layout_width="60dp"
         android:layout_height="30dp"
         android:layout_marginTop="28dp"
-        android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/textView6"
         app:layout_constraintTop_toBottomOf="@+id/LtextView" />
 
@@ -434,7 +415,7 @@
         android:id="@+id/totalpressure"
         android:layout_width="45dp"
         android:layout_height="20dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="36dp"
         android:text="總壓力"
         app:layout_constraintStart_toEndOf="@+id/texttotal1"
         app:layout_constraintTop_toBottomOf="@+id/text4" />
@@ -497,7 +478,7 @@
         android:id="@+id/LtextView"
         android:layout_width="70dp"
         android:layout_height="150dp"
-        android:background="#E8FFFFFF"
+        android:background="#FFFFFF"
         android:text="L"
         android:textColor="#EE8282"
         android:textSize="128sp"
@@ -541,11 +522,64 @@
 
     <TextView
         android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="28dp"
         android:text="R總壓力"
         app:layout_constraintStart_toEndOf="@+id/texttotalfinal"
         app:layout_constraintTop_toBottomOf="@+id/LtextView" />
+
+    <Button
+        android:id="@+id/buttonScan3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="L歷史資料"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/p12" />
+
+    <Button
+        android:id="@+id/buttonScan4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:text="R歷史資料"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.959"
+        app:layout_constraintStart_toEndOf="@+id/buttonScan3"
+        app:layout_constraintTop_toBottomOf="@+id/text16" />
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+        android:layout_width="360dp"
+        android:layout_height="114dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonScan4"
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:id="@+id/output"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text=""
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent" />
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

@@ -60,7 +60,7 @@ public class BluetoothLeService extends Service {
     public static final String address1="1C:BA:8C:1D:81:8A";
     public static final String address2="1C:BA:8C:1D:85:4D";
 
-//   public static final String address1="F4:5E:AB:B1:0A:2C";
+ //  public static final String address1="F4:5E:AB:B1:0A:2C";
 //    public static final String address2="1C:BA:8C:1D:86:82";
 
     public final static String ACTION_GATT_CONNECTED =
