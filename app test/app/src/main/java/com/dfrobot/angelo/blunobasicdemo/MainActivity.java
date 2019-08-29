@@ -38,21 +38,21 @@ import android.widget.Toast;
 public class MainActivity  extends BlunoLibrary {
 
 
-	private static String DATABASE_TABLE = "SL";
+	private static String DATABASE_TABLE = "SL";  //資料庫 資料表 SL:左腳 SR:左腳
 	private static String DATABASE_TABLE2 = "SR";
 	private SQLiteDatabase db;
 	private MyDBHelper dbHelper;
 
 
-	private Spinner spinner1,spinner2;
+	private Spinner spinner1,spinner2; //下拉選單
 
 
 
-	private Button buttonScan;
-	private Button buttonScan2;
+	private Button buttonScan;  //藍牙連接左腳
+	private Button buttonScan2;  //藍牙連接右腳
 
-	private Button buttonScan3;
-	private Button buttonScan4;
+	private Button buttonScan3;  //檢視左腳歷史紀錄
+	private Button buttonScan4;  //檢視右腳歷史紀錄
 
 //	private Button limitbutton;
 //	private Button cancelbutton;
@@ -60,51 +60,50 @@ public class MainActivity  extends BlunoLibrary {
 //	private Button limitbutton2;
 //	private Button cancelbutton2;
 
-	private TextView test, text1, text2, text3, text4, text5, text6, text7, text8;
+	private TextView test, text1, text2, text3, text4, text5, text6, text7, text8;                   //顯示壓力值
 	private TextView test2, text9, text10, text11, text12, text13, text14, text15, text16;
-	private TextView texttotal1, texttotal2, texttotalfinal, output;
+	private TextView texttotal1, texttotal2, texttotalfinal, output;   //顯示壓力比值
 	private TextView LtextView, RtextView;
 	private EditText limit,limit2;
 
 	private int time = 0;
 	private int time2 = 0;
-	private float total1 = 0;
-	private float total2 = 0;
-	private float total1total2 = 1;
-    private float x = 0;
+	private float total1 = 0;              //儲存左腳總壓力值
+	private float total2 = 0;              //儲存右腳總壓力值
+	private float total1total2 = 1;         //儲存雙腳總壓力值
+    private float x = 0;                  //儲存雙腳100筆平均總壓力值
 
-	private int n1 = 0; //計算空值
-	private int n2 = 0; //計算空值
+	private int n1 = 0; //計算遺漏數值次數
+	private int n2 = 0; //計算遺漏數值次數
 
 
-	private int initial = 0;
+	private int initial = 0;  //總壓力值暫存數量
 	private float[] texttotalfinalTOKEN ={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 			,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};  //總壓力值陣列
 //	private String[] token1 = {String.format("0"),String.format("0"),String.format("0"),String.format("0"),String.format("0"),String.format("0"),String.format("0"),String.format("0"),};
 
-	private float limitPercentlow = 0;
-	private float limitPercenthigh = 0;
-	private float limitPercent2low = 0;
-	private float limitPercent2high = 0;
+	private float limitPercentlow = 0;  //左腳負重閥值上限
+	private float limitPercenthigh = 0;  //左腳負重閥值下限
+	private float limitPercent2low = 0;  //右腳負重閥值上限
+	private float limitPercent2high = 0;  //右腳負重閥值下限
 
-	private int safe1 = 0;
-	private int safe11 = 0;
+	private int safe1 = 0;  //監測負重峰值是否大於下限值
+	private int safe11 = 0;  //判斷是否為完整一步(1為離地,0為處地)
 
-	private int safe2 = 0;
-	private int safe22 = 0;
+	private int safe2 = 0;  //監測負重峰值是否大於下限值
+	private int safe22 = 0;  //判斷是否為完整一步(1為離地,0為處地)
 
-	private SoundPool soundpool;//声明一个SoundPool对象
+	private SoundPool soundpool;   //音效池(可放入多個音效)
 	private HashMap<Integer,Integer> soundmap=new HashMap<Integer,Integer>();//创建一个HashMap对象
 
-	public MainActivity() {
-	}
+
 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);          //當Activity準備要產生時，先呼叫onCreate方法。
 		setContentView(R.layout.activity_main);
 		onCreateProcess();
 
@@ -154,7 +153,7 @@ public class MainActivity  extends BlunoLibrary {
 		limit = (EditText) findViewById(R.id.limit);
 		limit2 = (EditText) findViewById(R.id.limit2);
  */
-		spinner1 = (Spinner)findViewById(R.id.spinner1);
+		spinner1 = (Spinner)findViewById(R.id.spinner1);                          //閥值列表下拉選單
 		ArrayAdapter<CharSequence> spinner1list = ArrayAdapter.createFromResource(MainActivity.this,R.array.lunch,
 				android.R.layout.simple_spinner_dropdown_item);
 		spinner1.setAdapter(spinner1list);
@@ -208,7 +207,7 @@ public class MainActivity  extends BlunoLibrary {
 		});
 
 
-		spinner2 = (Spinner)findViewById(R.id.spinner2);
+		spinner2 = (Spinner)findViewById(R.id.spinner2);                             //閥值列表下拉選單
 		ArrayAdapter<CharSequence> spinner2list = ArrayAdapter.createFromResource(MainActivity.this,R.array.lunch,
 				android.R.layout.simple_spinner_dropdown_item);
 		spinner2.setAdapter(spinner2list);
@@ -266,7 +265,7 @@ public class MainActivity  extends BlunoLibrary {
 
 
 
-		buttonScan = (Button) findViewById(R.id.buttonScan);
+		buttonScan = (Button) findViewById(R.id.buttonScan);     //連接L裝置
 		buttonScan.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -277,7 +276,7 @@ public class MainActivity  extends BlunoLibrary {
 			}
 		});
 
-		buttonScan2 = (Button) findViewById(R.id.buttonScan2);
+		buttonScan2 = (Button) findViewById(R.id.buttonScan2);      //連接R裝置
 		buttonScan2.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -288,7 +287,7 @@ public class MainActivity  extends BlunoLibrary {
 			}
 		});
 
-		buttonScan3 = (Button) findViewById(R.id.buttonScan3);
+		buttonScan3 = (Button) findViewById(R.id.buttonScan3);      //調閱L紀錄
 		buttonScan3.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -298,7 +297,7 @@ public class MainActivity  extends BlunoLibrary {
 				buttonScanOnClickProcess3();
 			}
 		});
-		buttonScan4 = (Button) findViewById(R.id.buttonScan4);
+		buttonScan4 = (Button) findViewById(R.id.buttonScan4);      //調閱R紀錄
 		buttonScan4.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -364,7 +363,7 @@ public class MainActivity  extends BlunoLibrary {
 
 	}
 
-	protected void onResume() {
+	protected void onResume() {              //當Activity出現手機上後，呼叫onResume方法。
 		super.onResume();
 		System.out.println("BlUNOActivity onResume");
 		onResumeProcess();
@@ -378,25 +377,25 @@ public class MainActivity  extends BlunoLibrary {
 	}
 
 	@Override
-	protected void onPause() {
+	protected void onPause() {                    //當使用者按下返回鍵結束Activity時， 先呼叫onPause方法。
 		super.onPause();
 		onPauseProcess();
 	}
 
-	protected void onStop() {
+	protected void onStop() {                    //當Activity從螢幕上消失時，呼叫onStop方法。
 		super.onStop();
 		db.close();
 		onStopProcess();
 	}
 
 	@Override
-	protected void onDestroy() {
+	protected void onDestroy() {                  //最後完全結束Activity之前，呼叫onDestroy方法。
 		super.onDestroy();
 		onDestroyProcess();
 	}
 
 	@Override
-	public void onConectionStateChange(connectionStateEnum theConnectionState) {
+	public void onConectionStateChange(connectionStateEnum theConnectionState) {      //連接狀態顯示
 		switch (theConnectionState) {
 			case isConnected:
 				buttonScan.setText("L已連線");
@@ -418,7 +417,7 @@ public class MainActivity  extends BlunoLibrary {
 		}
 	}
 
-	public void onConectionStateChange2(connectionStateEnum theConnectionState) {
+	public void onConectionStateChange2(connectionStateEnum theConnectionState) {        //連接狀態顯示
 		switch (theConnectionState) {
 			case isConnected:
 				buttonScan2.setText("R已連線");
@@ -440,7 +439,7 @@ public class MainActivity  extends BlunoLibrary {
 		}
 	}
 
-	public void setVibrate(int time){
+	public void setVibrate(int time){                         //震動功能初始化
 		Vibrator myVibrator = (Vibrator) getSystemService(Service.VIBRATOR_SERVICE);
 		Log.e("TAG", "vibrator="+ myVibrator.hasVibrator());
 		myVibrator.vibrate(time);
@@ -479,12 +478,12 @@ public class MainActivity  extends BlunoLibrary {
 	@Override
 	public void onSerialReceived(String theString){
 		// TODO Auto-generated method stub
-		test.append(theString);
-		String[] token = test.getText().toString().split(",|_");
-		System.out.println("1yes1");
-		if(theString.indexOf("_")!=-1 && token.length%8 == 0) {
+		test.append(theString);                                                         //先將收到數值print在test上,但test長寬設為0
+		String[] token = test.getText().toString().split(",|_");       //以","與"_"區分字串,放入token
+		System.out.println("1yes1");                                                   //查看logcat時.app是否正常收值使用,可忽略
+		if(theString.indexOf("_")!=-1 && token.length%8 == 0) {                         //確認該次String中有"_",且token中剛好有8個數值
 			System.out.println("1yes2");
-			for (int p = 0; p < token.length; p++) {
+			for (int p = 0; p < token.length; p++) {                                    //空值以0取代以免後續儲存數值產生錯誤
 				if("".equals(token[p]) ) {
 					token[p] = String.format("0");
 				}
@@ -508,7 +507,7 @@ public class MainActivity  extends BlunoLibrary {
 					Date curDate = new Date(System.currentTimeMillis()) ; // 獲取當前時間
 					String str = formatter.format(curDate);
 
-					ContentValues cv = new ContentValues();
+					ContentValues cv = new ContentValues();                                      //儲存數值入sqlite
 					cv.put("PTOTAL", String.format("%.3f",x));
                     cv.put("time", str);
 					cv.put("LR", String.format("%.3f",total1/x));
@@ -545,13 +544,13 @@ public class MainActivity  extends BlunoLibrary {
 					if(total1/x > 0){
 						safe11 = 0;
 					}
-					if(total1/x > limitPercenthigh){
+					if(total1/x > limitPercenthigh){                                                                  //閥值上限偵測
 						setVibrate(300);
 						soundpool.play(soundmap.get(1), 1,1,0,0,1);
 						LtextView.setBackgroundColor(Color.argb(255,240,9,9));
 					}
 					if(total1 == 0){
-						if(safe1 == 0 && safe11 == 0){
+						if(safe1 == 0 && safe11 == 0){                                                               //閥值下限偵測
 							LtextView.setBackgroundColor(Color.argb(255,68,255,0));
 							soundpool.play(soundmap.get(2), 1,1,0,0,1);
 						}else if(safe1 == 1){
@@ -587,10 +586,10 @@ public class MainActivity  extends BlunoLibrary {
 				}
 
 				//time = time+8;
-				test.setText(null);
+				test.setText(null);                                                         //每次收值顯示儲存完，都需清空test，以免重複收值儲存產生錯誤
 				//System.out.println(test);
 			}
-		}else if(theString.indexOf("_")!=-1 && token.length > 8){
+		}else if(theString.indexOf("_")!=-1 && token.length > 8){                          //如為string有"_",但接收數值超於8個,清空test不做任何動作(通常是數值遺漏，導致數值減少，兩次數值相加大於8個，此處採取全部割捨動作)
 			test.setText(null);
 			System.out.println("n1"+n1++);
 		}
@@ -705,13 +704,14 @@ public class MainActivity  extends BlunoLibrary {
 					System.out.println(str);
 				}
 
-				total1total2 = total1+total2;
+
 				//time2 = time2+8;
 				test2.setText(null);
 				//System.out.println(test2);
+				total1total2 = total1+total2;                        //左右雙腳總壓力值相加
 
 
-				if(total1 != 0 && total2 != 0 && initial<100){
+				if(total1 != 0 && total2 != 0 && initial<100){          //左右不等於0,才計入
 					texttotalfinalTOKEN[initial] = total1total2;
 					initial++;
 				}
@@ -749,7 +749,7 @@ public class MainActivity  extends BlunoLibrary {
 	}
 
 
-	public void buttonScanOnClickProcess3()
+	public void buttonScanOnClickProcess3()                 //調閱紀錄
 	{
 		String[] colNames=new String[]{"_id","PTOTAL","time","LR","SL1"};
 		String str = "";
@@ -770,7 +770,7 @@ public class MainActivity  extends BlunoLibrary {
 		}
 		output.setText(str.toString());
 	}
-	public void buttonScanOnClickProcess4()
+	public void buttonScanOnClickProcess4()                       //調閱紀錄
 	{
 		String[] colNames=new String[]{"_id","PTOTAL","time","LR","SR1"};
 		String str = "";
